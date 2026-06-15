@@ -30,6 +30,7 @@ export default async function AdminLayout({
     { name: "Services", href: "/admin/services", icon: Briefcase },
     { name: "Experience", href: "/admin/experience", icon: Briefcase },
     { name: "Certificates", href: "/admin/certificates", icon: Award },
+    { name: "Testimonials", href: "/admin/testimonials", icon: MessageSquare },
     { name: "Messages", href: "/admin/messages", icon: MessageSquare },
     { name: "Settings", href: "/admin/settings", icon: SettingsIcon },
   ];
