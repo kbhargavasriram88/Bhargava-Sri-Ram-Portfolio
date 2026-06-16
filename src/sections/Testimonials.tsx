@@ -13,41 +13,7 @@ interface TestimonialsSectionProps {
 export function TestimonialsSection({ testimonials = [] }: TestimonialsSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Fallback data if empty, mimicking the image exactly
-  const displayTestimonials = testimonials.length > 0 ? testimonials : [
-    {
-      name: "Rohit Sharma",
-      role: "Founder, TechNova",
-      type: "Client",
-      content: "Bhargava is an exceptional developer who consistently delivers high-quality work. His attention to detail, problem-solving skills, and dedication to excellence are truly impressive.",
-      rating: 5,
-      imageUrl: "https://i.pravatar.cc/150?u=1",
-    },
-    {
-      name: "Priya Nair",
-      role: "Project Manager, InnoSoft",
-      type: "Colleague",
-      content: "Working with Bhargava on our project was a great experience. He understands requirements quickly and turns ideas into real-world solutions.",
-      rating: 5,
-      imageUrl: "https://i.pravatar.cc/150?u=2",
-    },
-    {
-      name: "Arjun Patel",
-      role: "AI Engineer, DataMind Labs",
-      type: "Mentor",
-      content: "Bhargava's passion for AI/ML and full-stack development is unmatched. He's a quick learner and always brings innovative ideas to the table.",
-      rating: 5,
-      imageUrl: "https://i.pravatar.cc/150?u=3",
-    },
-    {
-      name: "Sneha Verma",
-      role: "CEO, GreenLeaf Organics",
-      type: "Client",
-      content: "He built our website from scratch with modern design and great performance. Highly professional and easy to work with!",
-      rating: 5,
-      imageUrl: "https://i.pravatar.cc/150?u=4",
-    }
-  ];
+  const displayTestimonials = testimonials || [];
 
   const scrollLeft = () => {
     if (containerRef.current) {

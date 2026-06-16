@@ -1,4 +1,4 @@
-import { getTestimonials } from "@/actions/testimonials";
+  import { getTestimonials } from "@/actions/testimonials";
 import { TestimonialTable } from "@/components/admin/TestimonialTable";
 import { TestimonialDialog } from "@/components/admin/TestimonialDialog";
 
