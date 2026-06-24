@@ -29,17 +29,22 @@ export function ProjectDialog({ project, trigger }: { project?: any; trigger?: R
     
     const payload = {
       ...formData,
-      technologies: formData.technologies.split(",").map((t: string) => t.trim()),
+      technologies: formData.technologies ? formData.technologies.split(",").map((t: string) => t.trim()) : [],
     };
 
-    if (project?._id) {
-      await updateProject(project._id, payload);
-    } else {
-      await createProject(payload);
+    try {
+      if (project?._id) {
+        await updateProject(project._id, payload);
+      } else {
+        await createProject(payload);
+      }
+      setOpen(false);
+    } catch (error) {
+      console.error("Error saving project:", error);
+      alert("Failed to save project. Check console for details.");
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
-    setOpen(false);
   };
 
   return (

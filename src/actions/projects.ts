@@ -11,25 +11,40 @@ export async function getProjects() {
 }
 
 export async function createProject(data: Partial<IProject>) {
-  await dbConnect();
-  await Project.create(data);
-  revalidatePath("/admin/projects");
-  revalidatePath("/#projects");
-  return { success: true };
+  try {
+    await dbConnect();
+    await Project.create(data);
+    revalidatePath("/admin/projects");
+    revalidatePath("/");
+    return { success: true };
+  } catch (error: any) {
+    console.error("Failed to create project:", error);
+    throw new Error(error.message || "Failed to create project");
+  }
 }
 
 export async function updateProject(id: string, data: Partial<IProject>) {
-  await dbConnect();
-  await Project.findByIdAndUpdate(id, data);
-  revalidatePath("/admin/projects");
-  revalidatePath("/#projects");
-  return { success: true };
+  try {
+    await dbConnect();
+    await Project.findByIdAndUpdate(id, data);
+    revalidatePath("/admin/projects");
+    revalidatePath("/");
+    return { success: true };
+  } catch (error: any) {
+    console.error("Failed to update project:", error);
+    throw new Error(error.message || "Failed to update project");
+  }
 }
 
 export async function deleteProject(id: string) {
-  await dbConnect();
-  await Project.findByIdAndDelete(id);
-  revalidatePath("/admin/projects");
-  revalidatePath("/#projects");
-  return { success: true };
+  try {
+    await dbConnect();
+    await Project.findByIdAndDelete(id);
+    revalidatePath("/admin/projects");
+    revalidatePath("/");
+    return { success: true };
+  } catch (error: any) {
+    console.error("Failed to delete project:", error);
+    throw new Error(error.message || "Failed to delete project");
+  }
 }
