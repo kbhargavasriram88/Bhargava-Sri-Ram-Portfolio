@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { OfferBanner } from "@/components/OfferBanner";
+import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
   { name: "Home", href: "/" },
