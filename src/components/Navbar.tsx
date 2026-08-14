@@ -91,7 +91,16 @@ export function Navbar({ offer, requestForm }: { offer?: any; requestForm?: any 
           </div>
 
           {/* Mobile Navigation Toggle */}
-          <div className="flex items-center gap-4 md:hidden">
+          <div className="flex items-center gap-2 sm:gap-3 md:hidden">
+            <WebsiteRequestDialog 
+              requestForm={requestForm}
+              trigger={
+                <Button size="sm" className="h-8 px-3 text-xs font-extrabold rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 text-black shadow-md shadow-emerald-500/20 gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>{requestForm?.buttonText || "Request Website"}</span>
+                </Button>
+              }
+            />
             <ThemeToggle />
             <Button
               variant="ghost"
