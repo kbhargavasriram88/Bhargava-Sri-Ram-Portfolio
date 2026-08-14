@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Sparkles, Copy, Check, ArrowRight, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import { WebsiteRequestDialog } from "@/components/WebsiteRequestDialog";
+
 export interface OfferBannerProps {
   offer?: {
     enabled?: boolean;
@@ -16,9 +18,10 @@ export interface OfferBannerProps {
     buttonLink?: string;
     discountCode?: string;
   } | null;
+  requestForm?: any;
 }
 
-export function OfferBanner({ offer }: OfferBannerProps) {
+export function OfferBanner({ offer, requestForm }: OfferBannerProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -132,19 +135,22 @@ export function OfferBanner({ offer }: OfferBannerProps) {
                 </motion.button>
               )}
 
-              <Link href={offer.buttonLink || "/#contact"}>
-                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
-                  <Button
-                    size="sm"
-                    className="relative overflow-hidden h-8 md:h-9 px-4 text-xs font-extrabold rounded-full bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-400 hover:from-emerald-300 hover:to-teal-300 text-black shadow-[0_0_20px_rgba(16,185,129,0.45)] transition-all gap-1.5 group"
-                  >
-                    {/* Glossy sweep effect on hover */}
-                    <span className="absolute inset-0 w-full h-full bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
-                    <span>{offer.buttonText || "Claim Offer"}</span>
-                    <ArrowRight className="w-3.5 h-3.5 stroke-[3] group-hover:translate-x-0.5 transition-transform" />
-                  </Button>
-                </motion.div>
-              </Link>
+              <WebsiteRequestDialog
+                requestForm={requestForm}
+                trigger={
+                  <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+                    <Button
+                      size="sm"
+                      className="relative overflow-hidden h-8 md:h-9 px-4 text-xs font-extrabold rounded-full bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-400 hover:from-emerald-300 hover:to-teal-300 text-black shadow-[0_0_20px_rgba(16,185,129,0.45)] transition-all gap-1.5 group cursor-pointer"
+                    >
+                      {/* Glossy sweep effect on hover */}
+                      <span className="absolute inset-0 w-full h-full bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+                      <span>{offer.buttonText || "Claim Offer"}</span>
+                      <ArrowRight className="w-3.5 h-3.5 stroke-[3] group-hover:translate-x-0.5 transition-transform" />
+                    </Button>
+                  </motion.div>
+                }
+              />
 
               <motion.button
                 whileHover={{ scale: 1.15, rotate: 90 }}

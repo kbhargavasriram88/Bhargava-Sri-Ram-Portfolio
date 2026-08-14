@@ -46,7 +46,7 @@ export function Navbar({ offer, requestForm }: { offer?: any; requestForm?: any 
           : "bg-transparent border-transparent py-2"
       )}
     >
-      <OfferBanner offer={offer} />
+      <OfferBanner offer={offer} requestForm={requestForm} />
       <div className="container mx-auto px-4 md:px-6">
         <div className={cn(
           "flex items-center justify-between transition-all duration-300",
