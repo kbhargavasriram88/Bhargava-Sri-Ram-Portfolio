@@ -14,7 +14,7 @@ export async function createCertificate(data: any) {
   await dbConnect();
   await Certificate.create(data);
   revalidatePath("/admin/certificates");
-  revalidatePath("/#certifications");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -22,7 +22,7 @@ export async function updateCertificate(id: string, data: any) {
   await dbConnect();
   await Certificate.findByIdAndUpdate(id, data);
   revalidatePath("/admin/certificates");
-  revalidatePath("/#certifications");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -30,6 +30,6 @@ export async function deleteCertificate(id: string) {
   await dbConnect();
   await Certificate.findByIdAndDelete(id);
   revalidatePath("/admin/certificates");
-  revalidatePath("/#certifications");
+  revalidatePath("/");
   return { success: true };
 }

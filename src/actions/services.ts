@@ -14,7 +14,7 @@ export async function createService(data: any) {
   await dbConnect();
   await Service.create(data);
   revalidatePath("/admin/services");
-  revalidatePath("/#services");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -22,7 +22,7 @@ export async function updateService(id: string, data: any) {
   await dbConnect();
   await Service.findByIdAndUpdate(id, data);
   revalidatePath("/admin/services");
-  revalidatePath("/#services");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -30,6 +30,6 @@ export async function deleteService(id: string) {
   await dbConnect();
   await Service.findByIdAndDelete(id);
   revalidatePath("/admin/services");
-  revalidatePath("/#services");
+  revalidatePath("/");
   return { success: true };
 }

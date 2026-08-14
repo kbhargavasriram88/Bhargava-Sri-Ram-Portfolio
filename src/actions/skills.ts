@@ -14,7 +14,7 @@ export async function createSkill(data: Partial<ISkill>) {
   await dbConnect();
   await Skill.create(data);
   revalidatePath("/admin/skills");
-  revalidatePath("/#skills");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -22,7 +22,7 @@ export async function updateSkill(id: string, data: Partial<ISkill>) {
   await dbConnect();
   await Skill.findByIdAndUpdate(id, data);
   revalidatePath("/admin/skills");
-  revalidatePath("/#skills");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -30,6 +30,6 @@ export async function deleteSkill(id: string) {
   await dbConnect();
   await Skill.findByIdAndDelete(id);
   revalidatePath("/admin/skills");
-  revalidatePath("/#skills");
+  revalidatePath("/");
   return { success: true };
 }
