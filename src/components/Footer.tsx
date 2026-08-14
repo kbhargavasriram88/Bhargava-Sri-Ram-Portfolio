@@ -12,7 +12,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2 space-y-4">
             <Link href="/" className="inline-block">
-              <Image src="/logo.webp" alt="Logo" width={40} height={40} className="object-contain" />
+              <Image src="/logo.webp" alt="Logo" width={40} height={40} className="object-cover rounded-xl border border-emerald-500/30 shadow-sm hover:scale-105 transition-all duration-300" />
             </Link>
             <p className="text-muted-foreground max-w-sm">
               Building scalable web applications and intelligent digital experiences.

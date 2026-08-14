@@ -57,7 +57,7 @@ export function Navbar({ offer }: { offer?: any }) {
               alt="Logo" 
               width={isLarge ? 72 : 40} 
               height={isLarge ? 72 : 40} 
-              className="object-contain transition-all duration-300" 
+              className="object-cover rounded-2xl border border-emerald-500/30 shadow-md shadow-emerald-500/10 hover:scale-105 transition-all duration-300" 
             />
           </Link>
 
