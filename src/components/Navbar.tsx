@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { OfferBanner } from "@/components/OfferBanner";
+import { WebsiteRequestDialog } from "@/components/WebsiteRequestDialog";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
@@ -79,13 +80,14 @@ export function Navbar({ offer }: { offer?: any }) {
           </nav>
 
           <div className={cn(
-            "hidden md:flex items-center gap-4 transition-all duration-300",
-            isLarge ? "scale-110 origin-right" : "scale-100 origin-right"
+            "hidden md:flex items-center gap-3 transition-all duration-300",
+            isLarge ? "scale-105 origin-right" : "scale-100 origin-right"
           )}>
             <ThemeToggle />
-            <Link href="/resume.pdf" target="_blank" rel="noreferrer" className={cn(buttonVariants(), "rounded-full")}>
+            <Link href="/resume.pdf" target="_blank" rel="noreferrer" className={cn(buttonVariants({ variant: "outline" }), "rounded-full")}>
               Resume
             </Link>
+            <WebsiteRequestDialog />
           </div>
 
           {/* Mobile Navigation Toggle */}

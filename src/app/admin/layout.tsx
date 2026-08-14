@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { LayoutDashboard, LogOut, Settings as SettingsIcon, MessageSquare, Briefcase, Award, Code, FolderGit2 } from "lucide-react";
+import { LayoutDashboard, LogOut, Settings as SettingsIcon, MessageSquare, Briefcase, Award, Code, FolderGit2, FileText } from "lucide-react";
 import dbConnect from "@/lib/mongodb";
 import Settings from "@/models/Settings";
 
@@ -25,6 +25,7 @@ export default async function AdminLayout({
 
   const ADMIN_LINKS = [
     { name: "Overview", href: "/admin", icon: LayoutDashboard },
+    { name: "Website Requests", href: "/admin/requests", icon: FileText },
     { name: "Projects", href: "/admin/projects", icon: FolderGit2 },
     { name: "Skills", href: "/admin/skills", icon: Code },
     { name: "Services", href: "/admin/services", icon: Briefcase },
