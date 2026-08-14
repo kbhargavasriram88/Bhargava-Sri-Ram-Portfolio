@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { HeroSection } from "@/sections/Hero";
 import { AboutSection } from "@/sections/About";
 import { SkillsSection } from "@/sections/Skills";
