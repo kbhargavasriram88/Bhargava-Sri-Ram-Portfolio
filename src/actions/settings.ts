@@ -56,7 +56,7 @@ export async function updateSettings(data: Partial<ISettings>) {
 
     const updated = await Settings.findByIdAndUpdate(settings._id, data, { new: true });
     
-    revalidatePath("/");
+    revalidatePath("/", "layout");
     revalidatePath("/admin/settings");
     
     return { success: true, data: JSON.parse(JSON.stringify(updated)) };

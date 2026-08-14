@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,12 +11,14 @@ import { SkillDialog } from "./SkillDialog";
 import { Progress } from "@/components/ui/progress";
 
 export function SkillTable({ skills }: { skills: any[] }) {
+  const router = useRouter();
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
   const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this skill?")) {
       setIsDeleting(id);
       await deleteSkill(id);
+      router.refresh();
       setIsDeleting(null);
     }
   };

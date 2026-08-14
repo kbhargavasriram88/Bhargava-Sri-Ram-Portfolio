@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,12 +10,14 @@ import { deleteExperience } from "@/actions/experience";
 import { ExperienceDialog } from "./ExperienceDialog";
 
 export function ExperienceTable({ experience }: { experience: any[] }) {
+  const router = useRouter();
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
   const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this experience record?")) {
       setIsDeleting(id);
       await deleteExperience(id);
+      router.refresh();
       setIsDeleting(null);
     }
   };

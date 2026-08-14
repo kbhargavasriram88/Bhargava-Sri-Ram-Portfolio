@@ -14,7 +14,7 @@ export async function createTestimonial(data: any) {
   await dbConnect();
   await Testimonial.create(data);
   revalidatePath("/admin/testimonials");
-  revalidatePath("/");
+  revalidatePath("/", "layout");
   return { success: true };
 }
 
@@ -22,7 +22,7 @@ export async function updateTestimonial(id: string, data: any) {
   await dbConnect();
   await Testimonial.findByIdAndUpdate(id, data);
   revalidatePath("/admin/testimonials");
-  revalidatePath("/");
+  revalidatePath("/", "layout");
   return { success: true };
 }
 
@@ -30,6 +30,6 @@ export async function deleteTestimonial(id: string) {
   await dbConnect();
   await Testimonial.findByIdAndDelete(id);
   revalidatePath("/admin/testimonials");
-  revalidatePath("/");
+  revalidatePath("/", "layout");
   return { success: true };
 }

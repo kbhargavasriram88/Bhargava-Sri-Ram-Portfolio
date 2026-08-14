@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Edit2, Trash2, ExternalLink } from "lucide-react";
@@ -8,12 +9,14 @@ import { deleteCertificate } from "@/actions/certificates";
 import { CertificateDialog } from "./CertificateDialog";
 
 export function CertificateTable({ certificates }: { certificates: any[] }) {
+  const router = useRouter();
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
   const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this certificate?")) {
       setIsDeleting(id);
       await deleteCertificate(id);
+      router.refresh();
       setIsDeleting(null);
     }
   };

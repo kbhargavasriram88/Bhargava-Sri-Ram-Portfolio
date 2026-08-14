@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { createProject, updateProject } from "@/actions/projects";
 
 export function ProjectDialog({ project, trigger }: { project?: any; trigger?: React.ReactElement }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -38,6 +40,7 @@ export function ProjectDialog({ project, trigger }: { project?: any; trigger?: R
       } else {
         await createProject(payload);
       }
+      router.refresh();
       setOpen(false);
     } catch (error) {
       console.error("Error saving project:", error);

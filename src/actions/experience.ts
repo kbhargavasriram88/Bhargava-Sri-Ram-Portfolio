@@ -14,7 +14,7 @@ export async function createExperience(data: any) {
   await dbConnect();
   await Experience.create(data);
   revalidatePath("/admin/experience");
-  revalidatePath("/");
+  revalidatePath("/", "layout");
   return { success: true };
 }
 
@@ -22,7 +22,7 @@ export async function updateExperience(id: string, data: any) {
   await dbConnect();
   await Experience.findByIdAndUpdate(id, data);
   revalidatePath("/admin/experience");
-  revalidatePath("/");
+  revalidatePath("/", "layout");
   return { success: true };
 }
 
@@ -30,6 +30,6 @@ export async function deleteExperience(id: string) {
   await dbConnect();
   await Experience.findByIdAndDelete(id);
   revalidatePath("/admin/experience");
-  revalidatePath("/");
+  revalidatePath("/", "layout");
   return { success: true };
 }

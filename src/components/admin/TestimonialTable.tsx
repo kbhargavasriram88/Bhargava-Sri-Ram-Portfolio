@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,12 +10,14 @@ import { deleteTestimonial } from "@/actions/testimonials";
 import { TestimonialDialog } from "@/components/admin/TestimonialDialog";
 
 export function TestimonialTable({ testimonials }: { testimonials: any[] }) {
+  const router = useRouter();
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
   const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this testimonial?")) {
       setIsDeleting(id);
       await deleteTestimonial(id);
+      router.refresh();
       setIsDeleting(null);
     }
   };

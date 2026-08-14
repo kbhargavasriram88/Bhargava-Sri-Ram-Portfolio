@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { getSettings, updateSettings } from "@/actions/settings";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -11,10 +12,12 @@ import { Switch } from "@/components/ui/switch";
 import { Save, Plus, Trash2 } from "lucide-react";
 
 export default function SettingsPage() {
+  const router = useRouter();
   const [settings, setSettings] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
 
   useEffect(() => {
     fetchSettings();
@@ -39,11 +42,15 @@ export default function SettingsPage() {
     e.preventDefault();
     setIsSaving(true);
     setError("");
+    setSuccessMsg("");
 
     try {
       const res = await updateSettings(settings);
       if (!res.success) {
         setError(res.error || "Failed to save settings");
+      } else {
+        setSuccessMsg("Settings updated successfully!");
+        router.refresh();
       }
     } catch (err) {
       setError("An error occurred while saving settings");
@@ -97,6 +104,7 @@ export default function SettingsPage() {
       </div>
 
       {error && <div className="p-4 bg-destructive/10 text-destructive rounded-md border border-destructive/20">{error}</div>}
+      {successMsg && <div className="p-4 bg-emerald-500/10 text-emerald-500 rounded-md border border-emerald-500/20">{successMsg}</div>}
 
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* HERO SECTION */}

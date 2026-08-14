@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { createCertificate, updateCertificate } from "@/actions/certificates";
 
 export function CertificateDialog({ certificate, trigger }: { certificate?: any; trigger?: React.ReactElement }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -28,6 +30,7 @@ export function CertificateDialog({ certificate, trigger }: { certificate?: any;
       await createCertificate(formData);
     }
     
+    router.refresh();
     setIsLoading(false);
     setOpen(false);
   };
