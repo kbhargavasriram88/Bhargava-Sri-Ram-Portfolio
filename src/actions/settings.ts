@@ -66,7 +66,7 @@ export async function getSettings() {
         description: "Tell me about your idea, requirements, and budget to get a custom proposal within 24 hours.",
         badgeText: "Start Your Project",
         buttonText: "Request a Website",
-        budgetOptions: ["$200 - $500", "$500 - $1,000", "$1,000 - $2,500", "$2,500+"],
+        budgetOptions: ["₹5,000 - ₹15,000", "₹15,000 - ₹35,000", "₹35,000 - ₹75,000", "₹75,000+"],
         timelineOptions: ["Urgent (1-3 Days)", "1-2 Weeks", "3-4 Weeks", "Flexible"]
       };
     }

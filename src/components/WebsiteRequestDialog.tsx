@@ -19,7 +19,7 @@ const SERVICE_TYPES = [
   { id: "AI Integration", label: "AI/ML Application", icon: Sparkles },
 ];
 
-const DEFAULT_BUDGET_OPTIONS = ["$200 - $500", "$500 - $1,000", "$1,000 - $2,500", "$2,500+"];
+const DEFAULT_BUDGET_OPTIONS = ["₹5,000 - ₹15,000", "₹15,000 - ₹35,000", "₹35,000 - ₹75,000", "₹75,000+"];
 const DEFAULT_TIMELINE_OPTIONS = ["Urgent (1-3 Days)", "1-2 Weeks", "3-4 Weeks", "Flexible"];
 
 export interface WebsiteRequestDialogProps {

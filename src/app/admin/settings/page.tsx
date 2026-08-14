@@ -416,7 +416,7 @@ export default function SettingsPage() {
                   id="req-budget-opts" 
                   value={Array.isArray(settings.requestForm?.budgetOptions) ? settings.requestForm.budgetOptions.join(", ") : (settings.requestForm?.budgetOptions || "")} 
                   onChange={(e) => handleRequestFormChange("budgetOptions", e.target.value.split(",").map((s: string) => s.trim()))} 
-                  placeholder="$200 - $500, $500 - $1,000, $1,000 - $2,500, $2,500+" 
+                  placeholder="₹5,000 - ₹15,000, ₹15,000 - ₹35,000, ₹35,000 - ₹75,000, ₹75,000+" 
                 />
               </div>
               <div className="grid gap-2">

@@ -19,7 +19,7 @@ const WebsiteRequestSchema: Schema = new Schema(
     email: { type: String, required: true },
     phone: { type: String, default: "" },
     serviceType: { type: String, required: true, default: "Full-Stack Web App" },
-    budget: { type: String, required: true, default: "$500 - $1000" },
+    budget: { type: String, required: true, default: "₹15,000 - ₹35,000" },
     timeline: { type: String, default: "1-2 Weeks" },
     description: { type: String, required: true },
     status: {

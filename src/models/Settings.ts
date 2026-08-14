@@ -90,7 +90,7 @@ const SettingsSchema: Schema = new Schema(
       buttonText: { type: String, default: "Request a Website" },
       budgetOptions: {
         type: [String],
-        default: ["$200 - $500", "$500 - $1,000", "$1,000 - $2,500", "$2,500+"]
+        default: ["₹5,000 - ₹15,000", "₹15,000 - ₹35,000", "₹35,000 - ₹75,000", "₹75,000+"]
       },
       timelineOptions: {
         type: [String],
