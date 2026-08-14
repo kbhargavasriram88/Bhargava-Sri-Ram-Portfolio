@@ -71,6 +71,24 @@ export default function SettingsPage() {
     setSettings((prev: any) => ({ ...prev, socialLinks: { ...prev.socialLinks, [field]: value } }));
   };
 
+  const handleOfferChange = (field: string, value: any) => {
+    setSettings((prev: any) => ({
+      ...prev,
+      offer: {
+        ...(prev?.offer || {
+          enabled: false,
+          title: "",
+          description: "",
+          badgeText: "",
+          buttonText: "",
+          buttonLink: "",
+          discountCode: "",
+        }),
+        [field]: value
+      }
+    }));
+  };
+
   const handleAddEducation = () => {
     setSettings((prev: any) => ({
       ...prev,
@@ -214,6 +232,88 @@ export default function SettingsPage() {
             <div className="grid gap-2">
               <Label htmlFor="social-whatsapp">WhatsApp URL</Label>
               <Input id="social-whatsapp" value={settings.socialLinks.whatsapp} onChange={(e) => handleSocialChange("whatsapp", e.target.value)} placeholder="https://wa.me/..." />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* OFFER BANNER & ANNOUNCEMENT MODAL */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Offer Banner & Announcement Modal</CardTitle>
+            <CardDescription>Display a prominent promotional banner or offer modal above the navbar.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between rounded-lg border p-4 bg-muted/20">
+              <div className="space-y-0.5">
+                <Label className="text-base font-semibold">Enable Offer Banner</Label>
+                <p className="text-sm text-muted-foreground">Show or hide the announcement banner across the top of the website.</p>
+              </div>
+              <Switch 
+                checked={settings.offer?.enabled || false} 
+                onCheckedChange={(checked) => handleOfferChange("enabled", checked)} 
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="offer-title">Banner Title / Heading</Label>
+              <Input 
+                id="offer-title" 
+                value={settings.offer?.title || ""} 
+                onChange={(e) => handleOfferChange("title", e.target.value)} 
+                placeholder="🔥 Special Offer: 20% Off Web Development Services" 
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="offer-description">Description / Subtitle</Label>
+              <Input 
+                id="offer-description" 
+                value={settings.offer?.description || ""} 
+                onChange={(e) => handleOfferChange("description", e.target.value)} 
+                placeholder="Get a custom, high-converting portfolio or business website built in 5 days." 
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="offer-badge">Badge Tag Text</Label>
+                <Input 
+                  id="offer-badge" 
+                  value={settings.offer?.badgeText || ""} 
+                  onChange={(e) => handleOfferChange("badgeText", e.target.value)} 
+                  placeholder="Limited Offer" 
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="offer-discount">Discount / Promo Code</Label>
+                <Input 
+                  id="offer-discount" 
+                  value={settings.offer?.discountCode || ""} 
+                  onChange={(e) => handleOfferChange("discountCode", e.target.value)} 
+                  placeholder="DEV20" 
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="offer-button-text">Button Text</Label>
+                <Input 
+                  id="offer-button-text" 
+                  value={settings.offer?.buttonText || ""} 
+                  onChange={(e) => handleOfferChange("buttonText", e.target.value)} 
+                  placeholder="Claim Offer" 
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="offer-button-link">Button Link (URL or Anchor)</Label>
+                <Input 
+                  id="offer-button-link" 
+                  value={settings.offer?.buttonLink || ""} 
+                  onChange={(e) => handleOfferChange("buttonLink", e.target.value)} 
+                  placeholder="/#contact or https://wa.me/..." 
+                />
+              </div>
             </div>
           </CardContent>
         </Card>

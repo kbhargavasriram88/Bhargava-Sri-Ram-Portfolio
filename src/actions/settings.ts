@@ -34,8 +34,29 @@ export async function getSettings() {
           linkedin: "https://linkedin.com",
           email: "hello@example.com",
           whatsapp: ""
+        },
+        offer: {
+          enabled: false,
+          title: "🔥 Special Offer: 20% Off Web Development Services",
+          description: "Get a custom, high-converting portfolio or business website built in 5 days.",
+          badgeText: "Limited Offer",
+          buttonText: "Claim Offer",
+          buttonLink: "/#contact",
+          discountCode: "DEV20"
         }
       });
+    }
+
+    if (settings && !settings.offer) {
+      settings.offer = {
+        enabled: false,
+        title: "🔥 Special Offer: 20% Off Web Development Services",
+        description: "Get a custom, high-converting portfolio or business website built in 5 days.",
+        badgeText: "Limited Offer",
+        buttonText: "Claim Offer",
+        buttonLink: "/#contact",
+        discountCode: "DEV20"
+      };
     }
 
     return { success: true, data: JSON.parse(JSON.stringify(settings)) };

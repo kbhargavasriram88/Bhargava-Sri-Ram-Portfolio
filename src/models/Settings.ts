@@ -24,6 +24,15 @@ export interface ISettings extends Document {
     email: string;
     whatsapp: string;
   };
+  offer?: {
+    enabled: boolean;
+    title: string;
+    description: string;
+    badgeText: string;
+    buttonText: string;
+    buttonLink: string;
+    discountCode: string;
+  };
   createdAt: Date;
   updatedAt: Date;
 }
@@ -54,6 +63,15 @@ const SettingsSchema: Schema = new Schema(
       linkedin: { type: String, default: "" },
       email: { type: String, default: "" },
       whatsapp: { type: String, default: "" },
+    },
+    offer: {
+      enabled: { type: Boolean, default: false },
+      title: { type: String, default: "🔥 Special Offer: 20% Off Web Development Services" },
+      description: { type: String, default: "Get a custom, high-converting portfolio or business website built in 5 days." },
+      badgeText: { type: String, default: "Limited Offer" },
+      buttonText: { type: String, default: "Claim Offer" },
+      buttonLink: { type: String, default: "/#contact" },
+      discountCode: { type: String, default: "DEV20" },
     },
   },
   { timestamps: true }

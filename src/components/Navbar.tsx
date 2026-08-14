@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { cn } from "@/lib/utils";
+import { OfferBanner } from "@/components/OfferBanner";
 
 const NAV_LINKS = [
   { name: "Home", href: "/" },
@@ -20,7 +20,7 @@ const NAV_LINKS = [
   { name: "Contact", href: "/#contact" },
 ];
 
-export function Navbar() {
+export function Navbar({ offer }: { offer?: any }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isScrolled, setIsScrolled] = React.useState(false);
   const pathname = usePathname();
@@ -44,6 +44,7 @@ export function Navbar() {
           : "bg-transparent border-transparent py-2"
       )}
     >
+      <OfferBanner offer={offer} />
       <div className="container mx-auto px-4 md:px-6">
         <div className={cn(
           "flex items-center justify-between transition-all duration-300",
