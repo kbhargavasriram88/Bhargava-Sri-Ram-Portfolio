@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Save, Plus, Trash2 } from "lucide-react";
+import { Save, Plus, Trash2, Sparkles } from "lucide-react";
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -237,9 +237,15 @@ export default function SettingsPage() {
         </Card>
 
         {/* OFFER BANNER & ANNOUNCEMENT MODAL */}
-        <Card>
+        <Card className="border-emerald-500/50 bg-gradient-to-br from-emerald-950/20 via-card to-background shadow-lg shadow-emerald-500/5 relative overflow-hidden">
+          <div className="absolute top-0 right-0 bg-emerald-500 text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-bl-lg shadow-md flex items-center gap-1">
+            <Sparkles className="w-3 h-3" /> Featured Promo
+          </div>
           <CardHeader>
-            <CardTitle>Offer Banner & Announcement Modal</CardTitle>
+            <CardTitle className="text-emerald-400 flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-emerald-400" />
+              Offer Banner & Announcement Modal
+            </CardTitle>
             <CardDescription>Display a prominent promotional banner or offer modal above the navbar.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
