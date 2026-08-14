@@ -19,24 +19,49 @@ const SERVICE_TYPES = [
   { id: "AI Integration", label: "AI/ML Application", icon: Sparkles },
 ];
 
-const BUDGET_OPTIONS = ["$200 - $500", "$500 - $1,000", "$1,000 - $2,500", "$2,500+"];
-const TIMELINE_OPTIONS = ["Urgent (1-3 Days)", "1-2 Weeks", "3-4 Weeks", "Flexible"];
+const DEFAULT_BUDGET_OPTIONS = ["$200 - $500", "$500 - $1,000", "$1,000 - $2,500", "$2,500+"];
+const DEFAULT_TIMELINE_OPTIONS = ["Urgent (1-3 Days)", "1-2 Weeks", "3-4 Weeks", "Flexible"];
 
-export function WebsiteRequestDialog({ trigger }: { trigger?: React.ReactElement }) {
+export interface WebsiteRequestDialogProps {
+  trigger?: React.ReactElement;
+  requestForm?: {
+    enabled?: boolean;
+    title?: string;
+    description?: string;
+    badgeText?: string;
+    buttonText?: string;
+    budgetOptions?: string[];
+    timelineOptions?: string[];
+  } | null;
+}
+
+export function WebsiteRequestDialog({ trigger, requestForm }: WebsiteRequestDialogProps) {
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
+
+  const budgetOptions = requestForm?.budgetOptions?.length 
+    ? requestForm.budgetOptions 
+    : DEFAULT_BUDGET_OPTIONS;
+
+  const timelineOptions = requestForm?.timelineOptions?.length 
+    ? requestForm.timelineOptions 
+    : DEFAULT_TIMELINE_OPTIONS;
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     serviceType: "Website Development",
-    budget: "$500 - $1,000",
-    timeline: "1-2 Weeks",
+    budget: budgetOptions[0] || "$500 - $1,000",
+    timeline: timelineOptions[1] || "1-2 Weeks",
     description: "",
   });
+
+  if (requestForm?.enabled === false) {
+    return null;
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,13 +108,13 @@ export function WebsiteRequestDialog({ trigger }: { trigger?: React.ReactElement
       <DialogContent className="w-[95vw] max-w-[95vw] sm:max-w-xl md:max-w-2xl lg:max-w-3xl max-h-[92vh] sm:max-h-[88vh] overflow-y-auto bg-background/95 backdrop-blur-2xl border-emerald-500/40 p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl shadow-[0_10px_40px_rgba(16,185,129,0.2)]">
         <DialogHeader className="space-y-1.5 sm:space-y-2">
           <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-[10px] sm:text-xs font-bold uppercase tracking-wider w-fit">
-            <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-400" /> Start Your Project
+            <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-400" /> {requestForm?.badgeText || "Start Your Project"}
           </div>
           <DialogTitle className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-foreground">
-            Request a Custom Website
+            {requestForm?.title || "Request a Custom Website"}
           </DialogTitle>
           <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-            Tell me about your idea, requirements, and budget to get a custom proposal within 24 hours.
+            {requestForm?.description || "Tell me about your idea, requirements, and budget to get a custom proposal within 24 hours."}
           </p>
         </DialogHeader>
 
@@ -165,7 +190,7 @@ export function WebsiteRequestDialog({ trigger }: { trigger?: React.ReactElement
               <div className="space-y-2 sm:space-y-3">
                 <Label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground">Estimated Budget Range</Label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2">
-                  {BUDGET_OPTIONS.map((b) => (
+                  {budgetOptions.map((b) => (
                     <button
                       type="button"
                       key={b}
@@ -186,7 +211,7 @@ export function WebsiteRequestDialog({ trigger }: { trigger?: React.ReactElement
               <div className="space-y-2 sm:space-y-3">
                 <Label className="text-xs sm:text-sm font-bold uppercase tracking-wider text-muted-foreground">Expected Timeline</Label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2">
-                  {TIMELINE_OPTIONS.map((t) => (
+                  {timelineOptions.map((t) => (
                     <button
                       type="button"
                       key={t}

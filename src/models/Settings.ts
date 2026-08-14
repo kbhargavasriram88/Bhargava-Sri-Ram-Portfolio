@@ -33,6 +33,15 @@ export interface ISettings extends Document {
     buttonLink: string;
     discountCode: string;
   };
+  requestForm?: {
+    enabled: boolean;
+    title: string;
+    description: string;
+    badgeText: string;
+    buttonText: string;
+    budgetOptions: string[];
+    timelineOptions: string[];
+  };
   createdAt: Date;
   updatedAt: Date;
 }
@@ -72,6 +81,21 @@ const SettingsSchema: Schema = new Schema(
       buttonText: { type: String, default: "Claim Offer" },
       buttonLink: { type: String, default: "/#contact" },
       discountCode: { type: String, default: "DEV20" },
+    },
+    requestForm: {
+      enabled: { type: Boolean, default: true },
+      title: { type: String, default: "Request a Custom Website" },
+      description: { type: String, default: "Tell me about your idea, requirements, and budget to get a custom proposal within 24 hours." },
+      badgeText: { type: String, default: "Start Your Project" },
+      buttonText: { type: String, default: "Request a Website" },
+      budgetOptions: {
+        type: [String],
+        default: ["$200 - $500", "$500 - $1,000", "$1,000 - $2,500", "$2,500+"]
+      },
+      timelineOptions: {
+        type: [String],
+        default: ["Urgent (1-3 Days)", "1-2 Weeks", "3-4 Weeks", "Flexible"]
+      },
     },
   },
   { timestamps: true }

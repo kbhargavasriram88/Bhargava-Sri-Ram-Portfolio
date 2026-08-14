@@ -22,7 +22,7 @@ const NAV_LINKS = [
   { name: "Contact", href: "/#contact" },
 ];
 
-export function Navbar({ offer }: { offer?: any }) {
+export function Navbar({ offer, requestForm }: { offer?: any; requestForm?: any }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isScrolled, setIsScrolled] = React.useState(false);
   const pathname = usePathname();
@@ -87,7 +87,7 @@ export function Navbar({ offer }: { offer?: any }) {
             <Link href="/resume.pdf" target="_blank" rel="noreferrer" className={cn(buttonVariants({ variant: "outline" }), "rounded-full")}>
               Resume
             </Link>
-            <WebsiteRequestDialog />
+            <WebsiteRequestDialog requestForm={requestForm} />
           </div>
 
           {/* Mobile Navigation Toggle */}
@@ -128,10 +128,11 @@ export function Navbar({ offer }: { offer?: any }) {
                 Resume
               </Link>
               <WebsiteRequestDialog 
+                requestForm={requestForm}
                 trigger={
                   <Button className="w-full bg-gradient-to-r from-emerald-500 to-teal-400 text-black font-extrabold rounded-full justify-center shadow-lg shadow-emerald-500/20 gap-2">
                     <Sparkles className="w-4 h-4" />
-                    Request a Website
+                    {requestForm?.buttonText || "Request a Website"}
                   </Button>
                 }
               />

@@ -46,7 +46,7 @@ export default async function Home() {
       <AboutSection settings={settings} />
       <SkillsSection skills={skills} />
       <ProjectsSection projects={projects} />
-      <ServicesSection services={services} />
+      <ServicesSection services={services} requestForm={settings?.requestForm} />
       <ExperienceSection experience={experience} />
       <CertificationsSection certificates={certificates} />
       <TestimonialsSection testimonials={testimonials} />

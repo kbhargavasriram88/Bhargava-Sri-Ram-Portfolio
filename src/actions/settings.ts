@@ -59,6 +59,18 @@ export async function getSettings() {
       };
     }
 
+    if (settings && !settings.requestForm) {
+      settings.requestForm = {
+        enabled: true,
+        title: "Request a Custom Website",
+        description: "Tell me about your idea, requirements, and budget to get a custom proposal within 24 hours.",
+        badgeText: "Start Your Project",
+        buttonText: "Request a Website",
+        budgetOptions: ["$200 - $500", "$500 - $1,000", "$1,000 - $2,500", "$2,500+"],
+        timelineOptions: ["Urgent (1-3 Days)", "1-2 Weeks", "3-4 Weeks", "Flexible"]
+      };
+    }
+
     return { success: true, data: JSON.parse(JSON.stringify(settings)) };
   } catch (error) {
     console.error("Failed to fetch settings:", error);

@@ -89,6 +89,24 @@ export default function SettingsPage() {
     }));
   };
 
+  const handleRequestFormChange = (field: string, value: any) => {
+    setSettings((prev: any) => ({
+      ...prev,
+      requestForm: {
+        ...(prev?.requestForm || {
+          enabled: true,
+          title: "Request a Custom Website",
+          description: "Tell me about your idea, requirements, and budget to get a custom proposal within 24 hours.",
+          badgeText: "Start Your Project",
+          buttonText: "Request a Website",
+          budgetOptions: ["$200 - $500", "$500 - $1,000", "$1,000 - $2,500", "$2,500+"],
+          timelineOptions: ["Urgent (1-3 Days)", "1-2 Weeks", "3-4 Weeks", "Flexible"]
+        }),
+        [field]: value
+      }
+    }));
+  };
+
   const handleAddEducation = () => {
     setSettings((prev: any) => ({
       ...prev,
@@ -318,6 +336,96 @@ export default function SettingsPage() {
                   value={settings.offer?.buttonLink || ""} 
                   onChange={(e) => handleOfferChange("buttonLink", e.target.value)} 
                   placeholder="/#contact or https://wa.me/..." 
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* WEBSITE REQUEST MODAL CONFIGURATION */}
+        <Card className="border-emerald-500/50 bg-gradient-to-br from-emerald-950/20 via-card to-background shadow-lg shadow-emerald-500/5 relative overflow-hidden">
+          <div className="absolute top-0 right-0 bg-emerald-500 text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-bl-lg shadow-md flex items-center gap-1">
+            <Sparkles className="w-3 h-3" /> Client Modal Control
+          </div>
+          <CardHeader>
+            <CardTitle className="text-emerald-400 flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-emerald-400" />
+              Website Request Form & Modal Control
+            </CardTitle>
+            <CardDescription>
+              Enable or disable the Website Request modal, customize proposal headings, button labels, budget options, and timelines.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between rounded-lg border p-4 bg-muted/20">
+              <div className="space-y-0.5">
+                <Label className="text-base font-semibold">Enable Website Request Modal</Label>
+                <p className="text-sm text-muted-foreground">Allow visitors to open the Website Request proposal form across the site.</p>
+              </div>
+              <Switch 
+                checked={settings.requestForm?.enabled !== false} 
+                onCheckedChange={(checked) => handleRequestFormChange("enabled", checked)} 
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="req-form-title">Modal Title / Heading</Label>
+                <Input 
+                  id="req-form-title" 
+                  value={settings.requestForm?.title || ""} 
+                  onChange={(e) => handleRequestFormChange("title", e.target.value)} 
+                  placeholder="Request a Custom Website" 
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="req-form-badge">Badge Tagline</Label>
+                <Input 
+                  id="req-form-badge" 
+                  value={settings.requestForm?.badgeText || ""} 
+                  onChange={(e) => handleRequestFormChange("badgeText", e.target.value)} 
+                  placeholder="Start Your Project" 
+                />
+              </div>
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="req-form-desc">Modal Subtitle / Description</Label>
+              <Input 
+                id="req-form-desc" 
+                value={settings.requestForm?.description || ""} 
+                onChange={(e) => handleRequestFormChange("description", e.target.value)} 
+                placeholder="Tell me about your idea, requirements, and budget to get a custom proposal within 24 hours." 
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="req-form-btn-text">CTA Button Text (Navbar & Services)</Label>
+              <Input 
+                id="req-form-btn-text" 
+                value={settings.requestForm?.buttonText || ""} 
+                onChange={(e) => handleRequestFormChange("buttonText", e.target.value)} 
+                placeholder="Request a Website" 
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="req-budget-opts">Budget Options (Comma-Separated)</Label>
+                <Input 
+                  id="req-budget-opts" 
+                  value={Array.isArray(settings.requestForm?.budgetOptions) ? settings.requestForm.budgetOptions.join(", ") : (settings.requestForm?.budgetOptions || "")} 
+                  onChange={(e) => handleRequestFormChange("budgetOptions", e.target.value.split(",").map((s: string) => s.trim()))} 
+                  placeholder="$200 - $500, $500 - $1,000, $1,000 - $2,500, $2,500+" 
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="req-timeline-opts">Timeline Options (Comma-Separated)</Label>
+                <Input 
+                  id="req-timeline-opts" 
+                  value={Array.isArray(settings.requestForm?.timelineOptions) ? settings.requestForm.timelineOptions.join(", ") : (settings.requestForm?.timelineOptions || "")} 
+                  onChange={(e) => handleRequestFormChange("timelineOptions", e.target.value.split(",").map((s: string) => s.trim()))} 
+                  placeholder="Urgent (1-3 Days), 1-2 Weeks, 3-4 Weeks, Flexible" 
                 />
               </div>
             </div>

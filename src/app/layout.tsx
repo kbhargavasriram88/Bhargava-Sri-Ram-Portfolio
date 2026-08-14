@@ -30,7 +30,7 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar offer={settings?.offer} />
+          <Navbar offer={settings?.offer} requestForm={settings?.requestForm} />
           <main className="flex-1 pt-16">{children}</main>
           <Footer />
         </ThemeProvider>
