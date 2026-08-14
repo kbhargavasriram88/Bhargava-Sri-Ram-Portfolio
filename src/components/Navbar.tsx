@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sparkles } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { OfferBanner } from "@/components/OfferBanner";
@@ -123,9 +123,19 @@ export function Navbar({ offer }: { offer?: any }) {
                 {link.name}
               </Link>
             ))}
-            <Link href="/resume.pdf" target="_blank" rel="noreferrer" className={cn(buttonVariants(), "w-full rounded-full")}>
-              Resume
-            </Link>
+            <div className="pt-2 space-y-2">
+              <Link href="/resume.pdf" target="_blank" rel="noreferrer" className={cn(buttonVariants({ variant: "outline" }), "w-full rounded-full justify-center")}>
+                Resume
+              </Link>
+              <WebsiteRequestDialog 
+                trigger={
+                  <Button className="w-full bg-gradient-to-r from-emerald-500 to-teal-400 text-black font-extrabold rounded-full justify-center shadow-lg shadow-emerald-500/20 gap-2">
+                    <Sparkles className="w-4 h-4" />
+                    Request a Website
+                  </Button>
+                }
+              />
+            </div>
           </div>
         </div>
       )}
