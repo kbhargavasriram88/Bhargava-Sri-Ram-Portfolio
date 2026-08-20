@@ -60,6 +60,7 @@ export function Navbar({ offer, requestForm }: { offer?: any; requestForm?: any 
                 alt="Logo" 
                 width={isLarge ? 72 : 40} 
                 height={isLarge ? 72 : 40} 
+                priority
                 className="object-cover rounded-2xl border border-emerald-500/30 shadow-md shadow-emerald-500/10 hover:scale-105 transition-all duration-300" 
               />
             </FuturisticLogoEffect>
