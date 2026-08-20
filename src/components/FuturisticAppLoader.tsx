@@ -17,18 +17,18 @@ export function FuturisticAppLoader() {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          setTimeout(() => setIsLoading(false), 400);
+          setTimeout(() => setIsLoading(false), 650);
           return 100;
         }
 
-        const next = prev + Math.floor(Math.random() * 12) + 4;
+        const next = prev + Math.floor(Math.random() * 5) + 2;
         const currentProgress = next > 100 ? 100 : next;
 
-        if (currentProgress < 30) {
+        if (currentProgress < 28) {
           setStatusText("INITIALIZING QUANTUM CORE...");
-        } else if (currentProgress < 65) {
+        } else if (currentProgress < 60) {
           setStatusText("LOADING CYBER MESH & ASSETS...");
-        } else if (currentProgress < 95) {
+        } else if (currentProgress < 92) {
           setStatusText("ESTABLISHING NEURAL LINK...");
         } else {
           setStatusText("SYSTEM 100% READY");
@@ -36,7 +36,7 @@ export function FuturisticAppLoader() {
 
         return currentProgress;
       });
-    }, 90);
+    }, 140);
 
     return () => clearInterval(interval);
   }, []);
