@@ -68,13 +68,7 @@ export function FuturisticAppLoader() {
           {/* Glowing Central Ambient Flare */}
           <div className="absolute w-[500px] h-[500px] bg-gradient-to-tr from-emerald-500/20 via-cyan-500/20 to-teal-500/10 rounded-full blur-[120px] pointer-events-none" />
 
-          {/* Traveling Laser Scanline */}
-          <motion.div
-            initial={{ y: "-100%" }}
-            animate={{ y: "100%" }}
-            transition={{ repeat: Infinity, duration: 2.2, ease: "linear" }}
-            className="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_30px_#10b981] opacity-75"
-          />
+
 
           {/* Main Futuristic Rotating HUD Rings & Center Logo Container */}
           <div className="relative flex items-center justify-center mb-10">
