@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ShieldCheck, Cpu, Radio, Zap } from "lucide-react";
+import { SplashScreen } from "@capacitor/splash-screen";
 
 export function FuturisticAppLoader() {
   const [isLoading, setIsLoading] = useState(true);
@@ -11,8 +12,9 @@ export function FuturisticAppLoader() {
   const [statusText, setStatusText] = useState("INITIALIZING BHARGAV TECH...");
 
   useEffect(() => {
-    // Check session storage to avoid repeating full loader on every sub-navigation if desired,
-    // but show on app open/refresh!
+    // Hide native Capacitor Android static splash image immediately
+    SplashScreen.hide().catch(() => {});
+
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
