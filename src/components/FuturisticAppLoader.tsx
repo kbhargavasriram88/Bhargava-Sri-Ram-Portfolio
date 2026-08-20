@@ -18,36 +18,35 @@ export function FuturisticAppLoader() {
     // Hide native Capacitor Android static splash image immediately
     SplashScreen.hide().catch(() => {});
 
-    // Safety fallback: ensure screen unlocks after 3.2s max
+    // Safety fallback: ensure screen unlocks after 4.5s max
     const maxTimer = setTimeout(() => {
       setIsLoading(false);
-    }, 3200);
+    }, 4500);
 
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          setTimeout(() => setIsLoading(false), 400);
+          setTimeout(() => setIsLoading(false), 700);
           return 100;
         }
 
-        const next = prev + Math.floor(Math.random() * 8) + 4;
+        const next = prev + Math.floor(Math.random() * 3) + 2;
         const currentProgress = next >= 100 ? 100 : next;
 
-        if (currentProgress < 28) {
+        if (currentProgress < 30) {
           setStatusText("INITIALIZING QUANTUM CORE...");
-        } else if (currentProgress < 60) {
+        } else if (currentProgress < 65) {
           setStatusText("LOADING CYBER MESH & ASSETS...");
-        } else if (currentProgress < 92) {
+        } else if (currentProgress < 99) {
           setStatusText("ESTABLISHING NEURAL LINK...");
         } else {
           setStatusText("SYSTEM 100% READY");
-          setTimeout(() => setIsLoading(false), 400);
         }
 
         return currentProgress;
       });
-    }, 80);
+    }, 100);
 
     return () => {
       clearInterval(interval);
