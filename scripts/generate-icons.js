@@ -30,36 +30,65 @@ async function generateIcons() {
 
   console.log("✓ Web favicon and apple icons generated!");
 
-  // Generate Android launcher icons
+  // Generate Android launcher icons with comfortable ~78% inner scaling (zoomed out padding)
   for (const { folder, size } of ANDROID_ICON_SIZES) {
     const targetDir = path.join(__dirname, `../android/app/src/main/res/${folder}`);
     if (!fs.existsSync(targetDir)) {
       fs.mkdirSync(targetDir, { recursive: true });
     }
 
+    const innerSize = Math.round(size * 0.78);
+    const padding = Math.round((size - innerSize) / 2);
+
     const launcherPath = path.join(targetDir, "ic_launcher.png");
     const roundPath = path.join(targetDir, "ic_launcher_round.png");
     const foregroundPath = path.join(targetDir, "ic_launcher_foreground.png");
 
+    // Resized inner graphic
+    const innerGraphicBuffer = await sharp(sourceLogo)
+      .resize(innerSize, innerSize, { fit: "contain" })
+      .toBuffer();
+
     // Standard Launcher Icon
-    await sharp(sourceLogo)
-      .resize(size, size, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 1 } })
-      .png()
-      .toFile(launcherPath);
+    await sharp({
+      create: {
+        width: size,
+        height: size,
+        channels: 4,
+        background: { r: 5, g: 10, b: 20, alpha: 1 }
+      }
+    })
+    .composite([{ input: innerGraphicBuffer, top: padding, left: padding }])
+    .png()
+    .toFile(launcherPath);
 
     // Round Launcher Icon
-    await sharp(sourceLogo)
-      .resize(size, size, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 1 } })
-      .png()
-      .toFile(roundPath);
+    await sharp({
+      create: {
+        width: size,
+        height: size,
+        channels: 4,
+        background: { r: 5, g: 10, b: 20, alpha: 1 }
+      }
+    })
+    .composite([{ input: innerGraphicBuffer, top: padding, left: padding }])
+    .png()
+    .toFile(roundPath);
 
-    // Foreground Icon (Adaptive Icon)
-    await sharp(sourceLogo)
-      .resize(size, size, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
-      .png()
-      .toFile(foregroundPath);
+    // Foreground Icon (Adaptive Icon with transparent padding)
+    await sharp({
+      create: {
+        width: size,
+        height: size,
+        channels: 4,
+        background: { r: 0, g: 0, b: 0, alpha: 0 }
+      }
+    })
+    .composite([{ input: innerGraphicBuffer, top: padding, left: padding }])
+    .png()
+    .toFile(foregroundPath);
 
-    console.log(`✓ Generated icons for ${folder} (${size}x${size})`);
+    console.log(`✓ Generated zoomed-out icons for ${folder} (${size}x${size}, inner: ${innerSize}px)`);
   }
 
   console.log("All Android & Web App Icons generated successfully!");
