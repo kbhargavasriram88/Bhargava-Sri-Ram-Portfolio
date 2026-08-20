@@ -37,7 +37,7 @@ async function generateIcons() {
       fs.mkdirSync(targetDir, { recursive: true });
     }
 
-    const innerSize = Math.round(size * 0.78);
+    const innerSize = Math.round(size * 0.65);
     const padding = Math.round((size - innerSize) / 2);
 
     const launcherPath = path.join(targetDir, "ic_launcher.png");
