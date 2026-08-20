@@ -9,6 +9,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { OfferBanner } from "@/components/OfferBanner";
 import { WebsiteRequestDialog } from "@/components/WebsiteRequestDialog";
+import { FuturisticLogoEffect } from "@/components/FuturisticLogoEffect";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
@@ -53,13 +54,15 @@ export function Navbar({ offer, requestForm }: { offer?: any; requestForm?: any 
           isLarge ? "h-24 md:h-28" : "h-16"
         )}>
           <Link href="/" className="flex items-center gap-2">
-            <Image 
-              src="/logo.webp" 
-              alt="Logo" 
-              width={isLarge ? 72 : 40} 
-              height={isLarge ? 72 : 40} 
-              className="object-cover rounded-2xl border border-emerald-500/30 shadow-md shadow-emerald-500/10 hover:scale-105 transition-all duration-300" 
-            />
+            <FuturisticLogoEffect>
+              <Image 
+                src="/logo.webp" 
+                alt="Logo" 
+                width={isLarge ? 72 : 40} 
+                height={isLarge ? 72 : 40} 
+                className="object-cover rounded-2xl border border-emerald-500/30 shadow-md shadow-emerald-500/10 hover:scale-105 transition-all duration-300" 
+              />
+            </FuturisticLogoEffect>
           </Link>
 
           {/* Desktop Navigation */}
