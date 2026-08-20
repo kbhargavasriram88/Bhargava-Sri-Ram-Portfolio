@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { FuturisticAppLoader } from "@/components/FuturisticAppLoader";
 import { getSettings } from "@/actions/settings";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -30,6 +31,7 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <FuturisticAppLoader />
           <Navbar offer={settings?.offer} requestForm={settings?.requestForm} />
           <main className="flex-1 pt-16">{children}</main>
           <Footer />
