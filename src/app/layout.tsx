@@ -4,7 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import Script from "next/script";
+import { LoaderInit } from "@/components/LoaderInit";
 import { getSettings } from "@/actions/settings";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -68,39 +68,8 @@ export default async function RootLayout({
           </div>
         </div>
 
-        {/* Client-only script — never runs on server, no hydration mismatch */}
-        <Script id="fl-init" strategy="afterInteractive">{`
-          (function(){
-            var prog=0,
-                el=document.getElementById('fl-root'),
-                num=document.getElementById('fl-num'),
-                bar=document.getElementById('fl-bar'),
-                txt=document.getElementById('fl-txt');
-            if(!el) return;
-            el.addEventListener('click', dismiss);
-            var iv = setInterval(function(){
-              prog += Math.floor(Math.random()*3)+2;
-              if(prog>=100){ prog=100; clearInterval(iv); setTimeout(dismiss,700); }
-              if(num) num.textContent = prog<10?'0'+prog:String(prog);
-              if(bar) bar.style.width = prog+'%';
-              if(txt){
-                if(prog<30) txt.textContent='INITIALIZING QUANTUM CORE...';
-                else if(prog<65) txt.textContent='LOADING CYBER MESH & ASSETS...';
-                else if(prog<99) txt.textContent='ESTABLISHING NEURAL LINK...';
-                else txt.textContent='SYSTEM 100% READY';
-              }
-            }, 100);
-            setTimeout(dismiss, 5000);
-            function dismiss(){
-              clearInterval(iv);
-              if(!el) return;
-              el.style.opacity='0';
-              el.style.transform='scale(1.06)';
-              el.style.filter='blur(10px)';
-              setTimeout(function(){ if(el) el.style.display='none'; }, 650);
-            }
-          })();
-        `}</Script>
+        {/* Client-only animation runner — renders null on server, runs after hydration */}
+        <LoaderInit />
 
         <ThemeProvider
           attribute="class"
