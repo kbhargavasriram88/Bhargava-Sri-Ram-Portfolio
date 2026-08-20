@@ -7,14 +7,11 @@ import { ShieldCheck, Cpu, Radio, Zap } from "lucide-react";
 import { SplashScreen } from "@capacitor/splash-screen";
 
 export function FuturisticAppLoader() {
-  const [mounted, setMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [statusText, setStatusText] = useState("INITIALIZING BHARGAV TECH...");
 
   useEffect(() => {
-    setMounted(true);
-
     // Hide native Capacitor Android static splash image immediately
     SplashScreen.hide().catch(() => {});
 
@@ -53,16 +50,6 @@ export function FuturisticAppLoader() {
       clearTimeout(maxTimer);
     };
   }, []);
-
-  if (!mounted && isLoading) {
-    return (
-      <div className="fixed inset-0 w-full h-full min-h-screen z-[999999] flex flex-col items-center justify-center bg-slate-950 text-white overflow-hidden select-none">
-        <div className="p-4 rounded-3xl bg-slate-900/90 border border-emerald-500/50">
-          <Image src="/logo.webp" alt="Bhargav Tech Logo" width={80} height={80} priority className="w-20 h-20 rounded-2xl" />
-        </div>
-      </div>
-    );
-  }
 
   return (
     <AnimatePresence>
