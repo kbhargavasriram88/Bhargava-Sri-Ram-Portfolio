@@ -15,16 +15,21 @@ export function FuturisticAppLoader() {
     // Hide native Capacitor Android static splash image immediately
     SplashScreen.hide().catch(() => {});
 
+    // Safety fallback: ensure screen unlocks after 3.2s max
+    const maxTimer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3200);
+
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          setTimeout(() => setIsLoading(false), 650);
+          setTimeout(() => setIsLoading(false), 400);
           return 100;
         }
 
-        const next = prev + Math.floor(Math.random() * 5) + 2;
-        const currentProgress = next > 100 ? 100 : next;
+        const next = prev + Math.floor(Math.random() * 8) + 4;
+        const currentProgress = next >= 100 ? 100 : next;
 
         if (currentProgress < 28) {
           setStatusText("INITIALIZING QUANTUM CORE...");
@@ -34,13 +39,17 @@ export function FuturisticAppLoader() {
           setStatusText("ESTABLISHING NEURAL LINK...");
         } else {
           setStatusText("SYSTEM 100% READY");
+          setTimeout(() => setIsLoading(false), 400);
         }
 
         return currentProgress;
       });
-    }, 140);
+    }, 80);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(maxTimer);
+    };
   }, []);
 
   return (
@@ -49,8 +58,9 @@ export function FuturisticAppLoader() {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.08, filter: "blur(12px)" }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed inset-0 z-[999999] flex flex-col items-center justify-center bg-slate-950 text-white overflow-hidden select-none"
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          onClick={() => setIsLoading(false)}
+          className="fixed inset-0 w-full h-full min-h-screen z-[999999] flex flex-col items-center justify-center bg-slate-950 text-white overflow-hidden select-none cursor-pointer"
         >
           {/* Cyber Grid Background */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#10b98115_1px,transparent_1px),linear-gradient(to_bottom,#10b98115_1px,transparent_1px)] bg-[size:40px_40px] opacity-80" />
