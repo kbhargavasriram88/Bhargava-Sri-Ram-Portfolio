@@ -1,49 +1,45 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { ShieldCheck, Cpu, Radio, Zap } from "lucide-react";
 import { SplashScreen } from "@capacitor/splash-screen";
 
 export function FuturisticAppLoader() {
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [statusText, setStatusText] = useState("INITIALIZING BHARGAV TECH...");
+  const [exiting, setExiting] = useState(false);
 
   useEffect(() => {
-    // Hide native Capacitor Android static splash image immediately
     SplashScreen.hide().catch(() => {});
 
-    // Safety fallback: ensure screen unlocks after 4.5s max
     const maxTimer = setTimeout(() => {
-      setIsLoading(false);
-    }, 4500);
+      dismiss();
+    }, 5000);
 
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          setTimeout(() => setIsLoading(false), 700);
+          setTimeout(dismiss, 700);
           return 100;
         }
-
         const next = prev + Math.floor(Math.random() * 3) + 2;
-        const currentProgress = next >= 100 ? 100 : next;
-
-        if (currentProgress < 30) {
-          setStatusText("INITIALIZING QUANTUM CORE...");
-        } else if (currentProgress < 65) {
-          setStatusText("LOADING CYBER MESH & ASSETS...");
-        } else if (currentProgress < 99) {
-          setStatusText("ESTABLISHING NEURAL LINK...");
-        } else {
-          setStatusText("SYSTEM 100% READY");
-        }
-
-        return currentProgress;
+        const cur = next >= 100 ? 100 : next;
+        if (cur < 30) setStatusText("INITIALIZING QUANTUM CORE...");
+        else if (cur < 65) setStatusText("LOADING CYBER MESH & ASSETS...");
+        else if (cur < 99) setStatusText("ESTABLISHING NEURAL LINK...");
+        else setStatusText("SYSTEM 100% READY");
+        return cur;
       });
     }, 100);
+
+    function dismiss() {
+      clearInterval(interval);
+      clearTimeout(maxTimer);
+      setExiting(true);
+      setTimeout(() => setIsLoading(false), 600);
+    }
 
     return () => {
       clearInterval(interval);
@@ -51,103 +47,121 @@ export function FuturisticAppLoader() {
     };
   }, []);
 
+  if (!isLoading) return null;
+
   return (
-    <AnimatePresence>
-      {isLoading && (
-        <motion.div
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.08, filter: "blur(12px)" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          onClick={() => setIsLoading(false)}
-          className="fixed inset-0 w-full h-full min-h-screen z-[999999] flex flex-col items-center justify-center bg-slate-950 text-white overflow-hidden select-none cursor-pointer"
-        >
-          {/* Cyber Grid Background */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#10b98115_1px,transparent_1px),linear-gradient(to_bottom,#10b98115_1px,transparent_1px)] bg-[size:40px_40px] opacity-80" />
+    <>
+      <style>{`
+        @keyframes _spin_cw  { to { transform: rotate(360deg);  } }
+        @keyframes _spin_ccw { to { transform: rotate(-360deg); } }
+        @keyframes _pulse_ring { 0%,100%{ opacity:.5; transform:scale(.95); } 50%{ opacity:1; transform:scale(1.08); } }
+        @keyframes _fade_out  { to { opacity:0; transform:scale(1.06); filter:blur(10px); } }
+        @keyframes _logo_in   { from{ opacity:0; transform:scale(.8); } to{ opacity:1; transform:scale(1); } }
+        @keyframes _pulse_dot { 0%,100%{ opacity:1; } 50%{ opacity:.3; } }
 
-          {/* Glowing Central Ambient Flare */}
-          <div className="absolute w-[500px] h-[500px] bg-gradient-to-tr from-emerald-500/20 via-cyan-500/20 to-teal-500/10 rounded-full blur-[120px] pointer-events-none" />
+        .fl-wrap {
+          position: fixed; inset: 0; z-index: 999999;
+          display: flex; flex-direction: column; align-items: center; justify-content: center;
+          background: #020617; overflow: hidden; user-select: none; cursor: pointer;
+        }
+        .fl-wrap.fl-exit { animation: _fade_out .6s ease forwards; }
 
+        .fl-grid {
+          position: absolute; inset: 0;
+          background-image: linear-gradient(to right,#10b98115 1px,transparent 1px),
+                            linear-gradient(to bottom,#10b98115 1px,transparent 1px);
+          background-size: 40px 40px;
+        }
+        .fl-glow {
+          position: absolute;
+          width: 500px; height: 500px;
+          background: radial-gradient(circle, rgba(16,185,129,.18) 0%, rgba(6,182,212,.12) 50%, transparent 80%);
+          border-radius: 50%; pointer-events: none;
+        }
+        .fl-rings { position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 40px; }
+        .fl-ring-outer {
+          position: absolute; width: 256px; height: 256px; border-radius: 50%;
+          border: 2px dashed rgba(16,185,129,.5);
+          box-shadow: 0 0 40px rgba(16,185,129,.3);
+          animation: _spin_cw 12s linear infinite;
+        }
+        .fl-ring-inner {
+          position: absolute; width: 208px; height: 208px; border-radius: 50%;
+          border: 2px dashed rgba(6,182,212,.6);
+          box-shadow: 0 0 30px rgba(6,182,212,.3);
+          animation: _spin_ccw 8s linear infinite;
+        }
+        .fl-ring-pulse {
+          position: absolute; width: 160px; height: 160px; border-radius: 50%;
+          border: 1px solid rgba(52,211,153,.8);
+          box-shadow: 0 0 50px #10b981;
+          animation: _pulse_ring 2.5s ease-in-out infinite;
+        }
+        .fl-logo-card {
+          position: relative; z-index: 10;
+          padding: 16px; border-radius: 24px;
+          background: rgba(15,23,42,.9);
+          border: 1px solid rgba(16,185,129,.5);
+          box-shadow: 0 0 45px rgba(16,185,129,.4);
+          animation: _logo_in .6s ease forwards;
+        }
+        .fl-logo-card img { border-radius: 16px; display: block; }
 
+        .fl-hud { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        .fl-percent { display: flex; align-items: baseline; gap: 4px; font-family: monospace; }
+        .fl-num {
+          font-size: 3rem; font-weight: 900; letter-spacing: -.05em;
+          background: linear-gradient(90deg, #fff 0%, #a7f3d0 50%, #67e8f9 100%);
+          -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .fl-pct { font-size: 1.25rem; font-weight: 700; color: #34d399; }
+        .fl-status {
+          display: flex; align-items: center; gap: 8px;
+          padding: 4px 12px; border-radius: 999px;
+          background: rgba(16,185,129,.1); border: 1px solid rgba(16,185,129,.3);
+          color: #6ee7b7; font-size: 11px; font-family: monospace; letter-spacing: .12em; text-transform: uppercase;
+        }
+        .fl-dot { width: 8px; height: 8px; border-radius: 50%; background: #67e8f9; animation: _pulse_dot 1s ease-in-out infinite; }
+        .fl-bar-wrap {
+          width: 260px; height: 8px; background: #0f172a; border-radius: 999px;
+          overflow: hidden; border: 1px solid rgba(16,185,129,.4); padding: 2px;
+        }
+        .fl-bar { height: 100%; border-radius: 999px; background: linear-gradient(90deg,#10b981,#2dd4bf,#22d3ee); box-shadow: 0 0 15px #10b981; transition: width .15s ease; }
+        .fl-meta { display: flex; align-items: center; gap: 16px; font-size: 10px; color: rgba(110,231,183,.6); font-family: monospace; text-transform: uppercase; letter-spacing: .1em; margin-top: 8px; }
+      `}</style>
 
-          {/* Main Futuristic Rotating HUD Rings & Center Logo Container */}
-          <div className="relative flex items-center justify-center mb-10">
-            {/* Outer Clockwise Rotating Dashed Tech Ring */}
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ repeat: Infinity, duration: 12, ease: "linear" }}
-              className="w-64 h-64 sm:w-72 sm:h-72 rounded-full border-2 border-dashed border-emerald-500/50 shadow-[0_0_40px_rgba(16,185,129,0.3)] absolute"
-            />
+      <div className={`fl-wrap${exiting ? " fl-exit" : ""}`} onClick={() => { setExiting(true); setTimeout(() => setIsLoading(false), 600); }}>
+        <div className="fl-grid" />
+        <div className="fl-glow" />
 
-            {/* Inner Counter-Clockwise Segmented Ring */}
-            <motion.div
-              animate={{ rotate: -360 }}
-              transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
-              className="w-52 h-52 sm:w-60 sm:h-60 rounded-full border-2 border-dashed border-cyan-400/60 shadow-[0_0_30px_rgba(6,182,212,0.3)] absolute"
-            />
-
-            {/* Pulsing Glowing Orbital Arc */}
-            <motion.div
-              animate={{ scale: [0.95, 1.08, 0.95], opacity: [0.5, 1, 0.5] }}
-              transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-              className="w-40 h-40 sm:w-44 sm:h-44 rounded-full border border-emerald-400/80 shadow-[0_0_50px_#10b981] absolute"
-            />
-
-            {/* Center Logo Card with Holographic Aura */}
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.6 }}
-              className="relative z-10 p-3 sm:p-4 rounded-3xl bg-slate-900/90 border border-emerald-500/50 shadow-[0_0_45px_rgba(16,185,129,0.4)] backdrop-blur-2xl flex flex-col items-center justify-center"
-            >
-              <Image
-                src="/logo.webp"
-                alt="Bhargav Tech Logo"
-                width={80}
-                height={80}
-                priority
-                className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-2xl border border-emerald-400/40 shadow-inner"
-              />
-            </motion.div>
+        <div className="fl-rings">
+          <div className="fl-ring-outer" />
+          <div className="fl-ring-inner" />
+          <div className="fl-ring-pulse" />
+          <div className="fl-logo-card">
+            <Image src="/logo.webp" alt="Bhargav Tech" width={80} height={80} priority />
           </div>
+        </div>
 
-          {/* Futuristic Percentage HUD Display */}
-          <div className="relative z-10 flex flex-col items-center gap-3 px-6 text-center max-w-sm">
-            {/* Percentage Number Display */}
-            <div className="flex items-baseline gap-1 font-mono">
-              <span className="text-4xl sm:text-5xl font-black tracking-tighter bg-gradient-to-r from-white via-emerald-200 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(16,185,129,0.5)]">
-                {progress < 10 ? `0${progress}` : progress}
-              </span>
-              <span className="text-xl font-bold text-emerald-400">%</span>
-            </div>
-
-            {/* Status Label */}
-            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-[11px] font-mono tracking-widest uppercase">
-              <Radio className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-              <span>{statusText}</span>
-            </div>
-
-            {/* Segmented Neon Progress Bar */}
-            <div className="w-64 sm:w-80 h-2 bg-slate-900 rounded-full overflow-hidden border border-emerald-500/40 p-0.5 shadow-inner">
-              <motion.div
-                className="h-full bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 rounded-full shadow-[0_0_15px_#10b981]"
-                style={{ width: `${progress}%` }}
-                transition={{ duration: 0.15, ease: "easeOut" }}
-              />
-            </div>
-
-            {/* Sci-Fi HUD Metadata Badges */}
-            <div className="flex items-center gap-4 text-[10px] text-emerald-300/70 font-mono mt-2 uppercase tracking-wider">
-              <span className="flex items-center gap-1">
-                <Cpu className="w-3 h-3 text-emerald-400" /> BHARGAV TECH 4.0
-              </span>
-              <span>•</span>
-              <span className="flex items-center gap-1">
-                <ShieldCheck className="w-3 h-3 text-cyan-400" /> SECURE V1.0
-              </span>
-            </div>
+        <div className="fl-hud">
+          <div className="fl-percent">
+            <span className="fl-num">{progress < 10 ? `0${progress}` : progress}</span>
+            <span className="fl-pct">%</span>
           </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+          <div className="fl-status">
+            <div className="fl-dot" />
+            <span>{statusText}</span>
+          </div>
+          <div className="fl-bar-wrap">
+            <div className="fl-bar" style={{ width: `${progress}%` }} />
+          </div>
+          <div className="fl-meta">
+            <span>⬡ BHARGAV TECH 4.0</span>
+            <span>•</span>
+            <span>✦ SECURE V1.0</span>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
