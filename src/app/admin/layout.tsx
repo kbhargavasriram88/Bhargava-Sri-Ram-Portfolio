@@ -25,6 +25,7 @@ export default async function AdminLayout({
 
   const ADMIN_LINKS = [
     { name: "Overview", href: "/admin", icon: LayoutDashboard },
+    { name: "Freelance Hub", href: "/admin/freelance", icon: Briefcase },
     { name: "Website Requests", href: "/admin/requests", icon: FileText },
     { name: "Projects", href: "/admin/projects", icon: FolderGit2 },
     { name: "Skills", href: "/admin/skills", icon: Code },

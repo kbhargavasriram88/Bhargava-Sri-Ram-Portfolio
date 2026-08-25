@@ -5,7 +5,7 @@ import { FreelanceManager } from "@/components/admin/FreelanceManager";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminRequestsPage() {
+export default async function AdminFreelancePage() {
   const [reqRes, services, settingsRes] = await Promise.all([
     getWebsiteRequests(),
     getServices(),
