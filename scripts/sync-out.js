@@ -26,12 +26,19 @@ if (fs.existsSync(nextStaticDir)) {
   console.log('✓ Copied .next/static to out/_next/static');
 }
 
-// 3. Find 404.html or page.html with #fl-root and write to out/index.html
+// 3. Find 404.html or page.html with #fl-root and write to out/index.html, out/200.html, out/404.html
 const htmlPath = path.join(nextDir, 'server', 'pages', '404.html');
 if (fs.existsSync(htmlPath)) {
   const content = fs.readFileSync(htmlPath, 'utf8');
   fs.writeFileSync(path.join(outDir, 'index.html'), content, 'utf8');
-  console.log('✓ Generated out/index.html with #fl-root splash loader!');
+  fs.writeFileSync(path.join(outDir, '200.html'), content, 'utf8');
+  fs.writeFileSync(path.join(outDir, '404.html'), content, 'utf8');
+  console.log('✓ Generated out/index.html, out/200.html, and out/404.html with #fl-root splash loader!');
 } else {
   console.warn('⚠️ 404.html not found in .next/server/pages');
 }
+
+// 4. Ensure _redirects exists in out/ for Netlify SPA routing
+const redirectsPath = path.join(outDir, '_redirects');
+fs.writeFileSync(redirectsPath, '/*   /index.html   200\n', 'utf8');
+console.log('✓ Created out/_redirects for Netlify SPA route rewrites!');
