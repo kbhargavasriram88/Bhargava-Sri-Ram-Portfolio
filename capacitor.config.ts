@@ -4,10 +4,9 @@ const config: CapacitorConfig = {
   appId: 'com.bhargavtech.portfolio',
   appName: 'Bhargav Tech',
   webDir: 'out',
-  // server: {
-  //   url: 'https://bhargavtech4-0.netlify.app/', 
-  //   cleartext: true,
-  // },
+  server: {
+    errorPath: 'index.html',
+  },
   plugins: {
     SplashScreen: {
       launchShowDuration: 0,

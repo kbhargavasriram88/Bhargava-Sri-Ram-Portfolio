@@ -26,14 +26,42 @@ if (fs.existsSync(nextStaticDir)) {
   console.log('✓ Copied .next/static to out/_next/static');
 }
 
-// 3. Find 404.html or page.html with #fl-root and write to out/index.html, out/200.html, out/404.html
+// 3. Find 404.html or page.html with #fl-root and write fallback pages
 const htmlPath = path.join(nextDir, 'server', 'pages', '404.html');
 if (fs.existsSync(htmlPath)) {
   const content = fs.readFileSync(htmlPath, 'utf8');
+
+  // Base fallback HTML files
   fs.writeFileSync(path.join(outDir, 'index.html'), content, 'utf8');
   fs.writeFileSync(path.join(outDir, '200.html'), content, 'utf8');
   fs.writeFileSync(path.join(outDir, '404.html'), content, 'utf8');
-  console.log('✓ Generated out/index.html, out/200.html, and out/404.html with #fl-root splash loader!');
+
+  // Route fallback pages for Capacitor Android & static hosts
+  const routes = [
+    'login',
+    'admin',
+    'admin/requests',
+    'admin/projects',
+    'admin/skills',
+    'admin/services',
+    'admin/experience',
+    'admin/certificates',
+    'admin/testimonials',
+    'admin/messages',
+    'admin/settings',
+    'admin/freelance'
+  ];
+
+  for (const route of routes) {
+    const routeDir = path.join(outDir, route);
+    if (!fs.existsSync(routeDir)) {
+      fs.mkdirSync(routeDir, { recursive: true });
+    }
+    fs.writeFileSync(path.join(routeDir, 'index.html'), content, 'utf8');
+    fs.writeFileSync(path.join(outDir, `${route.replace(/\//g, '_')}.html`), content, 'utf8');
+  }
+
+  console.log('✓ Generated out/index.html, out/200.html, out/404.html, and route index.html fallbacks for all App Router pages!');
 } else {
   console.warn('⚠️ 404.html not found in .next/server/pages');
 }
