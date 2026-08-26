@@ -1,9 +1,12 @@
 "use client";
 import { useEffect } from "react";
+import { SplashScreen } from "@capacitor/splash-screen";
 
 /** Runs the #fl-root splash loader animation client-side after hydration. */
 export function LoaderInit() {
   useEffect(() => {
+    SplashScreen.hide().catch(() => {});
+
     const el = document.getElementById("fl-root") as HTMLElement | null;
     const num = document.getElementById("fl-num") as HTMLElement | null;
     const bar = document.getElementById("fl-bar") as HTMLElement | null;
