@@ -18,6 +18,7 @@ import {
 import { updateWebsiteRequestStatus, deleteWebsiteRequest } from "@/actions/websiteRequest";
 import { updateSettings } from "@/actions/settings";
 import { createService, updateService, deleteService } from "@/actions/services";
+import { ClientRequirementDetailModal } from "@/components/admin/ClientRequirementDetailModal";
 
 interface FreelanceManagerProps {
   initialRequests: any[];
@@ -583,107 +584,14 @@ export function FreelanceManager({
       {/* ─────────────────────────────────────────────────────────────
           FULL REQUIREMENT DETAILS MODAL
       ───────────────────────────────────────────────────────────── */}
-      {selectedRequest && (
-        <Dialog open={!!selectedRequest} onOpenChange={() => setSelectedRequest(null)}>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-background/95 backdrop-blur-xl border-emerald-500/30">
-            <DialogHeader>
-              <div className="flex items-center justify-between gap-4">
-                <DialogTitle className="text-xl font-bold flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-emerald-400" />
-                  Client Requirement Details
-                </DialogTitle>
-                {getStatusBadge(selectedRequest.status)}
-              </div>
-              <DialogDescription>
-                Submitted on {new Date(selectedRequest.createdAt).toLocaleString()}
-              </DialogDescription>
-            </DialogHeader>
+      <ClientRequirementDetailModal
+        request={selectedRequest}
+        open={!!selectedRequest}
+        onClose={() => setSelectedRequest(null)}
+        onStatusChange={handleStatusChange}
+        getStatusBadge={getStatusBadge}
+      />
 
-            <div className="space-y-6 pt-2 text-xs sm:text-sm">
-              {/* CLIENT INFO BOX */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 border border-border/60 rounded-xl bg-muted/20">
-                <div>
-                  <span className="text-xs font-bold text-muted-foreground block uppercase tracking-wider">Client Name</span>
-                  <span className="font-bold text-foreground text-sm">{selectedRequest.name}</span>
-                </div>
-                <div>
-                  <span className="text-xs font-bold text-muted-foreground block uppercase tracking-wider">Submission Date</span>
-                  <span className="font-semibold text-foreground">
-                    {new Date(selectedRequest.createdAt).toLocaleDateString(undefined, { dateStyle: "full" })}
-                  </span>
-                </div>
-                <div>
-                  <span className="text-xs font-bold text-muted-foreground block uppercase tracking-wider">Email Address</span>
-                  <a href={`mailto:${selectedRequest.email}`} className="text-primary hover:underline font-semibold inline-flex items-center gap-1 mt-0.5">
-                    <Mail className="w-3.5 h-3.5" /> {selectedRequest.email}
-                  </a>
-                </div>
-                <div>
-                  <span className="text-xs font-bold text-muted-foreground block uppercase tracking-wider">Phone / WhatsApp</span>
-                  {selectedRequest.phone ? (
-                    <a
-                      href={`https://wa.me/${selectedRequest.phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Hi ${selectedRequest.name}, regarding your ${selectedRequest.serviceType} requirement...`)}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-emerald-400 hover:underline font-bold font-mono inline-flex items-center gap-1 mt-0.5"
-                    >
-                      <Phone className="w-3.5 h-3.5" /> {selectedRequest.phone} <ExternalLink className="w-3 h-3" />
-                    </a>
-                  ) : (
-                    <span className="text-muted-foreground italic">Not provided</span>
-                  )}
-                </div>
-              </div>
-
-              {/* PROJECT SCOPE & BUDGET */}
-              <div className="grid grid-cols-3 gap-3 text-center">
-                <div className="p-3 border border-border/60 rounded-xl bg-card">
-                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">Service Type</span>
-                  <span className="font-bold text-foreground text-xs mt-0.5 block">{selectedRequest.serviceType}</span>
-                </div>
-                <div className="p-3 border border-border/60 rounded-xl bg-card">
-                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">Budget Range</span>
-                  <span className="font-bold text-emerald-400 text-xs mt-0.5 block font-mono">{selectedRequest.budget}</span>
-                </div>
-                <div className="p-3 border border-border/60 rounded-xl bg-card">
-                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">Timeline</span>
-                  <span className="font-bold text-foreground text-xs mt-0.5 block">{selectedRequest.timeline}</span>
-                </div>
-              </div>
-
-              {/* DETAILED PROJECT REQUIREMENTS TEXT */}
-              <div className="space-y-2">
-                <span className="font-bold text-foreground flex items-center gap-2 text-xs uppercase tracking-wider text-muted-foreground">
-                  <MessageSquare className="w-4 h-4 text-emerald-400" /> Full Requirements & Description
-                </span>
-                <div className="p-4 border border-emerald-500/20 rounded-xl bg-card/80 text-foreground whitespace-pre-wrap leading-relaxed font-sans shadow-inner">
-                  {selectedRequest.description}
-                </div>
-              </div>
-
-              {/* STATUS CHANGE BAR */}
-              <div className="space-y-2 pt-3 border-t border-border/50">
-                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider block">Update Status in Database:</span>
-                <div className="flex flex-wrap gap-2">
-                  {["New", "In Touch", "Accepted", "Completed", "Archived"].map((st) => (
-                    <Button
-                      key={st}
-                      variant={selectedRequest.status === st ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => handleStatusChange(selectedRequest._id, st)}
-                      className={`text-xs font-bold ${
-                        selectedRequest.status === st ? "bg-emerald-500 text-black hover:bg-emerald-400" : ""
-                      }`}
-                    >
-                      {st}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
-      )}
 
       {/* SERVICE ADD/EDIT MODAL */}
       {isServiceDialogOpen && (

@@ -13,7 +13,7 @@ export function FuturisticAppLoader() {
   useEffect(() => {
     SplashScreen.hide().catch(() => {});
 
-    const maxTimer = setTimeout(() => {
+    const maxTimer = setTimeout(() => { 
       dismiss();
     }, 5000);
 

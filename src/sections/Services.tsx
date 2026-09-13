@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, ShieldCheck, Clock, Users, Globe } from "lucide-react";
 import * as Icons from "lucide-react";
-import { WebsiteRequestDialog } from "@/components/WebsiteRequestDialog";
 
 interface ServicesSectionProps {
   services: any[];
@@ -92,15 +91,13 @@ export function ServicesSection({ services = [], requestForm }: ServicesSectionP
                   </ul>
 
                   {/* CTA Button */}
-                  <WebsiteRequestDialog
-                    requestForm={requestForm}
-                    trigger={
-                      <button className="mt-auto flex items-center justify-center w-full py-3.5 rounded-2xl border border-green-600/40 dark:border-green-500/40 text-green-700 dark:text-green-400 font-bold hover:bg-green-500/10 hover:border-green-600 dark:hover:border-green-400 transition-all duration-300 group/btn">
-                        Choose Package 
-                        <ArrowRight className="ml-2 w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                      </button>
-                    }
-                  />
+                  <Link
+                    href={`/request-website?package=${encodeURIComponent(mainTitle.toLowerCase())}`}
+                    className="mt-auto flex items-center justify-center w-full py-3.5 rounded-2xl border border-green-600/40 dark:border-green-500/40 text-green-700 dark:text-green-400 font-bold hover:bg-green-500/10 hover:border-green-600 dark:hover:border-green-400 transition-all duration-300 group/btn"
+                  >
+                    Choose Package 
+                    <ArrowRight className="ml-2 w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                  </Link>
                 </div>
               </motion.div>
             );
@@ -140,18 +137,16 @@ export function ServicesSection({ services = [], requestForm }: ServicesSectionP
           </div>
 
           {/* Final CTA */}
-          <WebsiteRequestDialog
-            requestForm={requestForm}
-            trigger={
-              <button className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-gradient-to-b from-green-500 to-green-600 dark:from-green-400/20 dark:to-green-600/50 border border-green-400 dark:border-green-500/50 rounded-2xl hover:scale-105 hover:shadow-[0_0_30px_rgba(34,197,94,0.4)] overflow-hidden shadow-lg">
-                <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-white/20 dark:from-green-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <span className="relative flex items-center gap-2">
-                  Let's Work Together
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </button>
-            }
-          />
+          <Link
+            href="/request-website"
+            className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-gradient-to-b from-green-500 to-green-600 dark:from-green-400/20 dark:to-green-600/50 border border-green-400 dark:border-green-500/50 rounded-2xl hover:scale-105 hover:shadow-[0_0_30px_rgba(34,197,94,0.4)] overflow-hidden shadow-lg"
+          >
+            <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-white/20 dark:from-green-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            <span className="relative flex items-center gap-2">
+              Let's Work Together
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </span>
+          </Link>
         </motion.div>
       </div>
     </section>

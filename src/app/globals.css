@@ -59,6 +59,16 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --color-nr-bg: var(--nr-bg);
+  --color-nr-card: var(--nr-card);
+  --color-nr-primary: var(--nr-primary);
+  --color-nr-dark-green: var(--nr-dark-green);
+  --color-nr-emerald: var(--nr-emerald);
+  --color-nr-text: var(--nr-text);
+  --color-nr-text-secondary: var(--nr-text-secondary);
+  --color-nr-border: var(--nr-border);
+  --color-nr-soft-green: var(--nr-soft-green);
+  --color-nr-input-bg: var(--nr-input-bg);
 }
 
 :root {
@@ -94,6 +104,18 @@
   --sidebar-accent-foreground: #065F46;
   --sidebar-border: #e2e8f0;
   --sidebar-ring: #10B981;
+
+  /* Nature Request Form Tokens (Light) */
+  --nr-bg: #F8FAF8;
+  --nr-card: #FFFFFF;
+  --nr-primary: #16A34A;
+  --nr-dark-green: #166534;
+  --nr-emerald: #10B981;
+  --nr-text: #0F172A;
+  --nr-text-secondary: #475569;
+  --nr-border: #DCE7DF;
+  --nr-soft-green: #DCFCE7;
+  --nr-input-bg: #FFFFFF;
 }
 
 .dark {
@@ -128,6 +150,18 @@
   --sidebar-accent-foreground: #34D399;
   --sidebar-border: #1f2937;
   --sidebar-ring: #34D399;
+
+  /* Nature Request Form Tokens (Dark) */
+  --nr-bg: #020A06;
+  --nr-card: #0B1A12;
+  --nr-primary: #22C55E;
+  --nr-dark-green: #14532D;
+  --nr-emerald: #34D399;
+  --nr-text: #F8FAFC;
+  --nr-text-secondary: #A7B8AE;
+  --nr-border: #163B27;
+  --nr-soft-green: rgba(34, 197, 94, 0.12);
+  --nr-input-bg: #07140D;
 }
 
 @layer base {

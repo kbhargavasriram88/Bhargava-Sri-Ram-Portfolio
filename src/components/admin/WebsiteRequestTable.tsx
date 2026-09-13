@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Trash2, Eye, Mail, Phone, Calendar, DollarSign, Clock, MessageSquare, ExternalLink } from "lucide-react";
 import { updateWebsiteRequestStatus, deleteWebsiteRequest } from "@/actions/websiteRequest";
+import { ClientRequirementDetailModal } from "@/components/admin/ClientRequirementDetailModal";
 
 export function WebsiteRequestTable({ requests }: { requests: any[] }) {
   const router = useRouter();
@@ -137,94 +138,13 @@ export function WebsiteRequestTable({ requests }: { requests: any[] }) {
       </div>
 
       {/* REQUEST DETAILS MODAL */}
-      {selectedRequest && (
-        <Dialog open={!!selectedRequest} onOpenChange={() => setSelectedRequest(null)}>
-          <DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <div className="flex items-center justify-between gap-4">
-                <DialogTitle className="text-xl font-bold">Website Request Details</DialogTitle>
-                {getStatusBadge(selectedRequest.status)}
-              </div>
-            </DialogHeader>
-
-            <div className="space-y-6 pt-4 text-sm">
-              {/* CLIENT INFO */}
-              <div className="grid grid-cols-2 gap-4 p-4 border rounded-lg bg-muted/20">
-                <div>
-                  <span className="text-xs text-muted-foreground block">Client Name</span>
-                  <span className="font-semibold text-foreground">{selectedRequest.name}</span>
-                </div>
-                <div>
-                  <span className="text-xs text-muted-foreground block">Date Submitted</span>
-                  <span className="font-semibold text-foreground">
-                    {new Date(selectedRequest.createdAt).toLocaleDateString(undefined, { dateStyle: "medium" })}
-                  </span>
-                </div>
-                <div>
-                  <span className="text-xs text-muted-foreground block">Email</span>
-                  <a href={`mailto:${selectedRequest.email}`} className="text-primary hover:underline font-medium inline-flex items-center gap-1">
-                    <Mail className="w-3.5 h-3.5" /> {selectedRequest.email}
-                  </a>
-                </div>
-                <div>
-                  <span className="text-xs text-muted-foreground block">Phone / WhatsApp</span>
-                  {selectedRequest.phone ? (
-                    <a href={`https://wa.me/${selectedRequest.phone.replace(/[^0-9]/g, "")}`} target="_blank" rel="noreferrer" className="text-emerald-400 hover:underline font-medium inline-flex items-center gap-1">
-                      <Phone className="w-3.5 h-3.5" /> {selectedRequest.phone} <ExternalLink className="w-3 h-3" />
-                    </a>
-                  ) : (
-                    <span className="text-muted-foreground italic">Not provided</span>
-                  )}
-                </div>
-              </div>
-
-              {/* PROJECT OVERVIEW */}
-              <div className="grid grid-cols-3 gap-3 text-center">
-                <div className="p-3 border rounded-lg bg-card">
-                  <span className="text-xs text-muted-foreground block">Project Type</span>
-                  <span className="font-bold text-foreground text-xs">{selectedRequest.serviceType}</span>
-                </div>
-                <div className="p-3 border rounded-lg bg-card">
-                  <span className="text-xs text-muted-foreground block">Budget</span>
-                  <span className="font-bold text-emerald-400 text-xs">{selectedRequest.budget}</span>
-                </div>
-                <div className="p-3 border rounded-lg bg-card">
-                  <span className="text-xs text-muted-foreground block">Timeline</span>
-                  <span className="font-bold text-foreground text-xs">{selectedRequest.timeline}</span>
-                </div>
-              </div>
-
-              {/* DESCRIPTION */}
-              <div className="space-y-2">
-                <span className="font-semibold block flex items-center gap-2">
-                  <MessageSquare className="w-4 h-4 text-primary" /> Project Requirements
-                </span>
-                <p className="p-4 border rounded-lg bg-muted/30 whitespace-pre-wrap leading-relaxed text-muted-foreground">
-                  {selectedRequest.description}
-                </p>
-              </div>
-
-              {/* CHANGE STATUS ACTION */}
-              <div className="space-y-2 pt-2 border-t">
-                <span className="text-xs font-semibold text-muted-foreground block">Update Status:</span>
-                <div className="flex flex-wrap gap-2">
-                  {["New", "In Touch", "Accepted", "Completed", "Archived"].map((st) => (
-                    <Button
-                      key={st}
-                      variant={selectedRequest.status === st ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => handleStatusChange(selectedRequest._id, st)}
-                      className="text-xs"
-                    >
-                      {st}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
-      )}
+      <ClientRequirementDetailModal
+        request={selectedRequest}
+        open={!!selectedRequest}
+        onClose={() => setSelectedRequest(null)}
+        onStatusChange={handleStatusChange}
+        getStatusBadge={getStatusBadge}
+      />
     </div>
   );
 }

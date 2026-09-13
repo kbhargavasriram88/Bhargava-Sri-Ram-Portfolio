@@ -8,7 +8,6 @@ import { Menu, X, Sparkles } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { OfferBanner } from "@/components/OfferBanner";
-import { WebsiteRequestDialog } from "@/components/WebsiteRequestDialog";
 import { FuturisticLogoEffect } from "@/components/FuturisticLogoEffect";
 import { cn } from "@/lib/utils";
 
@@ -91,20 +90,28 @@ export function Navbar({ offer, requestForm }: { offer?: any; requestForm?: any 
             <Link href="/resume.pdf" target="_blank" rel="noreferrer" className={cn(buttonVariants({ variant: "outline" }), "rounded-full")}>
               Resume
             </Link>
-            <WebsiteRequestDialog requestForm={requestForm} />
+            {requestForm?.enabled !== false && (
+              <Link
+                href="/request-website"
+                className="inline-flex items-center justify-center px-4 py-2 text-sm font-extrabold rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-black shadow-lg shadow-emerald-500/20 gap-2 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+              >
+                <Sparkles className="w-4 h-4" />
+                <span>{requestForm?.buttonText || "Request Website"}</span>
+              </Link>
+            )}
           </div>
 
           {/* Mobile Navigation Toggle */}
           <div className="flex items-center gap-2 sm:gap-3 md:hidden">
-            <WebsiteRequestDialog 
-              requestForm={requestForm}
-              trigger={
-                <Button size="sm" className="h-8 px-3 text-xs font-extrabold rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 text-black shadow-md shadow-emerald-500/20 gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>{requestForm?.buttonText || "Request Website"}</span>
-                </Button>
-              }
-            />
+            {requestForm?.enabled !== false && (
+              <Link
+                href="/request-website"
+                className="inline-flex items-center justify-center h-8 px-3 text-xs font-extrabold rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 text-black shadow-md shadow-emerald-500/20 gap-1.5 transition-transform active:scale-95 cursor-pointer"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>{requestForm?.buttonText || "Request Website"}</span>
+              </Link>
+            )}
             <ThemeToggle />
             <Button
               variant="ghost"
@@ -140,15 +147,16 @@ export function Navbar({ offer, requestForm }: { offer?: any; requestForm?: any 
               <Link href="/resume.pdf" target="_blank" rel="noreferrer" className={cn(buttonVariants({ variant: "outline" }), "w-full rounded-full justify-center")}>
                 Resume
               </Link>
-              <WebsiteRequestDialog 
-                requestForm={requestForm}
-                trigger={
-                  <Button className="w-full bg-gradient-to-r from-emerald-500 to-teal-400 text-black font-extrabold rounded-full justify-center shadow-lg shadow-emerald-500/20 gap-2">
-                    <Sparkles className="w-4 h-4" />
-                    {requestForm?.buttonText || "Request a Website"}
-                  </Button>
-                }
-              />
+              {requestForm?.enabled !== false && (
+                <Link
+                  href="/request-website"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center justify-center w-full py-2.5 bg-gradient-to-r from-emerald-500 to-teal-400 text-black font-extrabold rounded-full shadow-lg shadow-emerald-500/20 gap-2 transition-transform active:scale-95 cursor-pointer text-sm"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  <span>{requestForm?.buttonText || "Request a Website"}</span>
+                </Link>
+              )}
             </div>
           </div>
         </div>

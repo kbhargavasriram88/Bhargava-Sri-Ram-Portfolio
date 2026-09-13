@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Mail, ArrowUp } from "lucide-react";
+import { Mail, ArrowUp, Phone, MessageSquare } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -26,6 +26,9 @@ export function Footer() {
               <Link href="/#projects" className="text-sm text-muted-foreground hover:text-primary transition-colors">Projects</Link>
               <Link href="/#services" className="text-sm text-muted-foreground hover:text-primary transition-colors">Services</Link>
               <Link href="/#contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">Contact</Link>
+              <a href="tel:+918332924488" className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-bold flex items-center gap-1 pt-1">
+                <Phone className="w-3.5 h-3.5" /> +91 8332924488
+              </a>
             </nav>
           </div>
 
@@ -39,6 +42,10 @@ export function Footer() {
               <Link href="https://linkedin.com" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                 <FaLinkedin className="h-5 w-5" />
                 <span className="sr-only">LinkedIn</span>
+              </Link>
+              <Link href="https://wa.me/918332924488" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-emerald-500 transition-colors" title="WhatsApp: +91 8332924488">
+                <MessageSquare className="h-5 w-5" />
+                <span className="sr-only">WhatsApp (+91 8332924488)</span>
               </Link>
               <Link href="mailto:hello@example.com" className="text-muted-foreground hover:text-primary transition-colors">
                 <Mail className="h-5 w-5" />

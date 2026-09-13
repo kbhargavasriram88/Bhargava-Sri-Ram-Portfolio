@@ -33,7 +33,7 @@ export async function getSettings() {
           github: "https://github.com/kbhargavasriram88",
           linkedin: "https://linkedin.com",
           email: "hello@example.com",
-          whatsapp: ""
+          whatsapp: "https://wa.me/918332924488"
         },
         offer: {
           enabled: false,

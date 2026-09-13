@@ -32,7 +32,7 @@ export function ContactSection({ settings }: ContactSectionProps) {
     github: "https://github.com",
     linkedin: "https://linkedin.com",
     email: "mailto:contact@example.com",
-    whatsapp: "https://wa.me/1234567890"
+    whatsapp: "https://wa.me/918332924488"
   };
   const [isSuccess, setIsSuccess] = React.useState(false);
 
@@ -64,16 +64,15 @@ export function ContactSection({ settings }: ContactSectionProps) {
   return (
     <section id="contact" className="py-24 bg-muted/30 relative">
       {/* Floating WhatsApp Button */}
-      {socials.whatsapp && (
-        <Link 
-          href={socials.whatsapp} 
-          target="_blank"
-          className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:scale-110 transition-transform flex items-center justify-center"
-        >
-          <MessageSquare className="w-6 h-6" />
-          <span className="sr-only">WhatsApp</span>
-        </Link>
-      )}
+      <Link 
+        href="https://wa.me/918332924488" 
+        target="_blank"
+        rel="noreferrer"
+        className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:scale-110 transition-transform flex items-center justify-center"
+      >
+        <MessageSquare className="w-6 h-6" />
+        <span className="sr-only">WhatsApp (+91 8332924488)</span>
+      </Link>
 
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16 space-y-4">
@@ -113,17 +112,20 @@ export function ContactSection({ settings }: ContactSectionProps) {
                 </div>
               )}
 
-              {socials.whatsapp && (
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
-                    <Phone className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground">Phone & WhatsApp</h4>
-                    <a href={socials.whatsapp} target="_blank" className="text-muted-foreground hover:text-primary transition-colors">Message Me</a>
-                  </div>
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
+                  <Phone className="w-5 h-5" />
                 </div>
-              )}
+                <div>
+                  <h4 className="font-semibold text-foreground">Phone & WhatsApp</h4>
+                  <a href="tel:+918332924488" className="text-muted-foreground hover:text-primary transition-colors block font-medium">
+                    +91 8332924488
+                  </a>
+                  <a href="https://wa.me/918332924488" target="_blank" rel="noreferrer" className="text-emerald-500 hover:text-emerald-400 text-xs font-semibold transition-colors mt-0.5 inline-block">
+                    Chat on WhatsApp →
+                  </a>
+                </div>
+              </div>
 
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary shrink-0">
