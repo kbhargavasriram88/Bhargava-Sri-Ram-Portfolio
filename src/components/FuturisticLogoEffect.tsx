@@ -1,12 +1,36 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Cpu, ShieldCheck, Zap, Radio, Activity } from "lucide-react";
 
 export function FuturisticLogoEffect({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const pathname = usePathname();
   const [isActive, setIsActive] = useState(false);
   const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number; size: number; color: string; angle: number }>>([]);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const navigateToHome = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    setIsActive(false);
+    if (pathname !== "/") {
+      router.push("/");
+    }
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [pathname, router]);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   const playFuturisticSound = useCallback(() => {
     try {
@@ -62,9 +86,11 @@ export function FuturisticLogoEffect({ children }: { children: React.ReactNode }
     setParticles(newParticles);
     setIsActive(true);
 
-    setTimeout(() => {
-      setIsActive(false);
-    }, 2400);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    // After the animation finishes, smoothly transition to the Home page
+    timerRef.current = setTimeout(() => {
+      navigateToHome();
+    }, 2000);
   };
 
   return (
@@ -99,8 +125,10 @@ export function FuturisticLogoEffect({ children }: { children: React.ReactNode }
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-[99999] pointer-events-none flex items-center justify-center overflow-hidden bg-black/40 backdrop-blur-sm"
+            transition={{ duration: 0.35 }}
+            onClick={navigateToHome}
+            className="fixed inset-0 z-[99999] pointer-events-auto cursor-pointer flex items-center justify-center overflow-hidden bg-black/60 backdrop-blur-md select-none"
+            title="Click anywhere to jump to Home"
           >
             {/* Holographic Cyber Grid Lines */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#10b98115_1px,transparent_1px),linear-gradient(to_bottom,#10b98115_1px,transparent_1px)] bg-[size:32px_32px] opacity-70" />
@@ -157,7 +185,7 @@ export function FuturisticLogoEffect({ children }: { children: React.ReactNode }
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.8, opacity: 0, y: -20 }}
               transition={{ type: "spring", stiffness: 300, damping: 22 }}
-              className="relative z-20 flex flex-col items-center gap-3 px-6 py-4 rounded-3xl bg-slate-950/90 border border-emerald-500/60 shadow-[0_0_50px_rgba(16,185,129,0.4)] backdrop-blur-2xl text-center"
+              className="relative z-20 flex flex-col items-center gap-3 px-7 py-5 rounded-3xl bg-slate-950/95 border border-emerald-500/60 shadow-[0_0_60px_rgba(16,185,129,0.45)] backdrop-blur-2xl text-center"
             >
               {/* Rotating Sci-Fi Energy Ring Icon */}
               <div className="relative">
@@ -185,14 +213,19 @@ export function FuturisticLogoEffect({ children }: { children: React.ReactNode }
                 </p>
               </div>
 
-              {/* Sci-Fi Loading Wave Bar */}
-              <div className="w-48 h-1.5 bg-emerald-950 rounded-full overflow-hidden border border-emerald-500/30">
+              {/* Sci-Fi Loading Progress Bar */}
+              <div className="w-52 h-2 bg-emerald-950/80 rounded-full overflow-hidden border border-emerald-500/40 p-0.5 shadow-inner mt-1">
                 <motion.div
-                  initial={{ x: "-100%" }}
-                  animate={{ x: "100%" }}
-                  transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
-                  className="w-full h-full bg-gradient-to-r from-emerald-500 via-cyan-400 to-teal-300 shadow-[0_0_12px_#10b981]"
+                  initial={{ width: "0%" }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 1.8, ease: "easeInOut" }}
+                  className="h-full rounded-full bg-gradient-to-r from-emerald-500 via-cyan-400 to-teal-300 shadow-[0_0_15px_#10b981]"
                 />
+              </div>
+
+              <div className="flex items-center gap-1.5 text-[11px] font-mono text-cyan-300/90 tracking-wider">
+                <Sparkles className="w-3.5 h-3.5 text-emerald-400 animate-spin" />
+                <span>ENTERING HOME PAGE...</span>
               </div>
             </motion.div>
           </motion.div>

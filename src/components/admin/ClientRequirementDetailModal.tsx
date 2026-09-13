@@ -185,7 +185,7 @@ AUTHORIZATION:
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="w-[95vw] max-w-4xl max-h-[92vh] overflow-y-auto bg-background/95 backdrop-blur-2xl border-emerald-500/30 p-4 sm:p-7 rounded-3xl shadow-[0_20px_70px_rgba(16,185,129,0.18)]">
+      <DialogContent className="w-[96vw] sm:max-w-3xl md:max-w-4xl lg:max-w-5xl max-h-[92vh] overflow-y-auto overflow-x-hidden bg-background/95 backdrop-blur-2xl border-emerald-500/30 p-5 sm:p-7 rounded-3xl shadow-[0_20px_70px_rgba(16,185,129,0.18)]">
         {/* ── Dialog Header with Reference & Quick Actions ──────────── */}
         <DialogHeader className="space-y-3 pb-4 border-b border-border/70">
           <div className="flex flex-wrap items-center justify-between gap-3">
