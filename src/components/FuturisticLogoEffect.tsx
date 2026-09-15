@@ -9,6 +9,8 @@ import { Sparkles, Cpu, ShieldCheck, Radio, Activity } from "lucide-react";
 export function FuturisticLogoEffect({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
+  const isAdmin = pathname?.startsWith("/admin") || (typeof window !== "undefined" && window.location.pathname.startsWith("/admin"));
+
   const [mounted, setMounted] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number; size: number; color: string; angle: number }>>([]);
@@ -17,6 +19,17 @@ export function FuturisticLogoEffect({ children }: { children: React.ReactNode }
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Clean up if path switches to admin
+  useEffect(() => {
+    if (isAdmin && isActive) {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      setIsActive(false);
+      if (typeof document !== "undefined") {
+        document.body.style.overflow = "";
+      }
+    }
+  }, [isAdmin, isActive]);
 
   const navigateToHome = useCallback(() => {
     if (timerRef.current) {
@@ -92,6 +105,11 @@ export function FuturisticLogoEffect({ children }: { children: React.ReactNode }
   }, []);
 
   const triggerActivationEffect = useCallback(() => {
+    // Disable in admin panel
+    if (pathname?.startsWith("/admin") || (typeof window !== "undefined" && window.location.pathname.startsWith("/admin"))) {
+      return;
+    }
+
     playFuturisticSound();
 
     const maxParticleX = typeof window !== "undefined" ? Math.min(window.innerWidth * 0.38, 160) : 140;
@@ -115,24 +133,28 @@ export function FuturisticLogoEffect({ children }: { children: React.ReactNode }
     timerRef.current = setTimeout(() => {
       navigateToHome();
     }, 2200);
-  }, [playFuturisticSound, navigateToHome]);
+  }, [pathname, playFuturisticSound, navigateToHome]);
 
   const triggerFuturisticEffect = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (isAdmin) return;
     triggerActivationEffect();
   };
 
   // Listen for the custom event dispatched by LoaderInit
   useEffect(() => {
     const handleIntro = () => {
+      if (pathname?.startsWith("/admin") || (typeof window !== "undefined" && window.location.pathname.startsWith("/admin"))) {
+        return;
+      }
       triggerActivationEffect();
     };
     window.addEventListener("trigger-quantum-intro", handleIntro);
     return () => {
       window.removeEventListener("trigger-quantum-intro", handleIntro);
     };
-  }, [triggerActivationEffect]);
+  }, [pathname, triggerActivationEffect]);
 
   return (
     <>
@@ -160,7 +182,7 @@ export function FuturisticLogoEffect({ children }: { children: React.ReactNode }
       </div>
 
       {/* Holographic Full-Screen Quantum Overlay portaled directly to document.body */}
-      {mounted && typeof document !== "undefined" && createPortal(
+      {mounted && !isAdmin && typeof document !== "undefined" && createPortal(
         <AnimatePresence>
           {isActive && (
             <motion.div

@@ -28,6 +28,7 @@ export default async function RootLayout({
         {/* ── Futuristic Splash Loader — static server HTML, JS runs client-only via next/script ── */}
         <div
           id="fl-root"
+          suppressHydrationWarning
           style={{
             position: "fixed",
             top: 0,

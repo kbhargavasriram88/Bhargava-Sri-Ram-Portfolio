@@ -1,16 +1,42 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
+import { usePathname } from "next/navigation";
 import { SplashScreen } from "@capacitor/splash-screen";
+
+const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 /** Runs the #fl-root splash loader animation client-side after hydration. */
 export function LoaderInit() {
+  const pathname = usePathname();
+
+  // Instantly suppress loader before paint when in admin panel
+  useIsomorphicLayoutEffect(() => {
+    const isAdmin = pathname?.startsWith("/admin") || (typeof window !== "undefined" && window.location.pathname.startsWith("/admin"));
+    if (isAdmin) {
+      const el = document.getElementById("fl-root");
+      if (el) el.style.display = "none";
+      document.body.style.overflow = "";
+    }
+  }, [pathname]);
+
   useEffect(() => {
     SplashScreen.hide().catch(() => {});
+
+    const el = document.getElementById("fl-root") as HTMLElement | null;
+
+    // Completely disable in admin panel
+    const isAdmin = pathname?.startsWith("/admin") || (typeof window !== "undefined" && window.location.pathname.startsWith("/admin"));
+    if (isAdmin) {
+      if (el) el.style.display = "none";
+      if (typeof document !== "undefined") {
+        document.body.style.overflow = "";
+      }
+      return;
+    }
 
     // Lock body scroll during splash loader
     document.body.style.overflow = "hidden";
 
-    const el = document.getElementById("fl-root") as HTMLElement | null;
     const num = document.getElementById("fl-num") as HTMLElement | null;
     const bar = document.getElementById("fl-bar") as HTMLElement | null;
     const txt = document.getElementById("fl-txt") as HTMLElement | null;
