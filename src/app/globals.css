@@ -36,8 +36,12 @@
 }
 
 /* Hide splash loader on admin panel via class without mutating inline styles */
-html.is-admin #fl-root {
+html.is-admin #fl-root,
+body.is-admin #fl-root {
   display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 @custom-variant dark (&:is(.dark *));

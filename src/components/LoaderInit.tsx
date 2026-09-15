@@ -5,31 +5,51 @@ import { SplashScreen } from "@capacitor/splash-screen";
 
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
+function isAdminRoute(p?: string | null): boolean {
+  let path = p;
+  if (!path && typeof window !== "undefined") {
+    path = window.location.pathname;
+  }
+  if (!path) return false;
+  return path.startsWith("/admin") || path.startsWith("/login") || path.startsWith("/api/auth");
+}
+
 /** Runs the #fl-root splash loader animation client-side after hydration. */
 export function LoaderInit() {
   const pathname = usePathname();
 
-  // Instantly suppress loader before paint when in admin panel
+  // Instantly suppress loader before paint when in admin panel or login
   useIsomorphicLayoutEffect(() => {
-    const isAdmin = pathname?.startsWith("/admin") || (typeof window !== "undefined" && window.location.pathname.startsWith("/admin"));
-    if (isAdmin) {
+    if (isAdminRoute(pathname)) {
+      if (typeof document !== "undefined") {
+        document.documentElement.classList.add("is-admin");
+        document.body.style.overflow = "";
+      }
       const el = document.getElementById("fl-root");
-      if (el) el.style.display = "none";
-      document.body.style.overflow = "";
+      if (el) {
+        el.style.display = "none";
+        try {
+          el.remove();
+        } catch {}
+      }
     }
   }, [pathname]);
 
   useEffect(() => {
     SplashScreen.hide().catch(() => {});
 
-    const el = document.getElementById("fl-root") as HTMLElement | null;
-
-    // Completely disable in admin panel
-    const isAdmin = pathname?.startsWith("/admin") || (typeof window !== "undefined" && window.location.pathname.startsWith("/admin"));
-    if (isAdmin) {
-      if (el) el.style.display = "none";
+    // Completely disable in admin panel and login
+    if (isAdminRoute(pathname)) {
       if (typeof document !== "undefined") {
+        document.documentElement.classList.add("is-admin");
         document.body.style.overflow = "";
+      }
+      const el = document.getElementById("fl-root");
+      if (el) {
+        el.style.display = "none";
+        try {
+          el.remove();
+        } catch {}
       }
       return;
     }
@@ -37,6 +57,7 @@ export function LoaderInit() {
     // Lock body scroll during splash loader
     document.body.style.overflow = "hidden";
 
+    const el = document.getElementById("fl-root") as HTMLElement | null;
     const num = document.getElementById("fl-num") as HTMLElement | null;
     const bar = document.getElementById("fl-bar") as HTMLElement | null;
     const txt = document.getElementById("fl-txt") as HTMLElement | null;

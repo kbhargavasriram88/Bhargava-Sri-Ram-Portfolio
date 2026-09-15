@@ -6,10 +6,19 @@ import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Cpu, ShieldCheck, Radio, Activity } from "lucide-react";
 
+function isAdminRoute(p?: string | null): boolean {
+  let path = p;
+  if (!path && typeof window !== "undefined") {
+    path = window.location.pathname;
+  }
+  if (!path) return false;
+  return path.startsWith("/admin") || path.startsWith("/login") || path.startsWith("/api/auth");
+}
+
 export function FuturisticLogoEffect({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const isAdmin = pathname?.startsWith("/admin") || (typeof window !== "undefined" && window.location.pathname.startsWith("/admin"));
+  const isAdmin = isAdminRoute(pathname);
 
   const [mounted, setMounted] = useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -20,16 +29,16 @@ export function FuturisticLogoEffect({ children }: { children: React.ReactNode }
     setMounted(true);
   }, []);
 
-  // Clean up if path switches to admin
+  // Clean up if path switches to admin or login
   useEffect(() => {
-    if (isAdmin && isActive) {
+    if (isAdminRoute(pathname) && isActive) {
       if (timerRef.current) clearTimeout(timerRef.current);
       setIsActive(false);
       if (typeof document !== "undefined") {
         document.body.style.overflow = "";
       }
     }
-  }, [isAdmin, isActive]);
+  }, [pathname, isActive]);
 
   const navigateToHome = useCallback(() => {
     if (timerRef.current) {
@@ -105,8 +114,8 @@ export function FuturisticLogoEffect({ children }: { children: React.ReactNode }
   }, []);
 
   const triggerActivationEffect = useCallback(() => {
-    // Disable in admin panel
-    if (pathname?.startsWith("/admin") || (typeof window !== "undefined" && window.location.pathname.startsWith("/admin"))) {
+    // Disable in admin panel and login
+    if (isAdminRoute(pathname)) {
       return;
     }
 
@@ -136,16 +145,16 @@ export function FuturisticLogoEffect({ children }: { children: React.ReactNode }
   }, [pathname, playFuturisticSound, navigateToHome]);
 
   const triggerFuturisticEffect = (e: React.MouseEvent) => {
+    if (isAdminRoute(pathname)) return;
     e.preventDefault();
     e.stopPropagation();
-    if (isAdmin) return;
     triggerActivationEffect();
   };
 
   // Listen for the custom event dispatched by LoaderInit
   useEffect(() => {
     const handleIntro = () => {
-      if (pathname?.startsWith("/admin") || (typeof window !== "undefined" && window.location.pathname.startsWith("/admin"))) {
+      if (isAdminRoute(pathname)) {
         return;
       }
       triggerActivationEffect();

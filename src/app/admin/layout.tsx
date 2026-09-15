@@ -38,7 +38,9 @@ export default async function AdminLayout({
   ];
 
   return (
-    <div className="flex min-h-screen">
+    <>
+      <style>{`#fl-root { display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; }`}</style>
+      <div className="flex min-h-screen">
       {/* Admin Background Layer */}
       <div className="fixed top-0 left-0 w-screen h-screen z-[-1] pointer-events-none">
         <Image 
@@ -93,5 +95,6 @@ export default async function AdminLayout({
         </main>
       </div>
     </div>
+    </>
   );
 }
