@@ -7,13 +7,41 @@ import { FaQuoteLeft } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 
 interface TestimonialsSectionProps {
-  testimonials: any[];
+  testimonials?: any[];
+  projectsCount?: number;
+  stats?: {
+    happyClients?: string;
+    projectsCompleted?: string;
+    averageRating?: string;
+    clientSatisfaction?: string;
+  };
 }
 
-export function TestimonialsSection({ testimonials = [] }: TestimonialsSectionProps) {
+export function TestimonialsSection({ 
+  testimonials = [],
+  projectsCount = 0,
+  stats 
+}: TestimonialsSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const displayTestimonials = testimonials || [];
+
+  // Dynamic calculations grounded in real testimonial and project data
+  const totalReviewsCount = displayTestimonials.length;
+  const happyClientsValue = stats?.happyClients || (totalReviewsCount > 0 ? `${totalReviewsCount}+` : "25+");
+  const projectsCompletedValue = stats?.projectsCompleted || (projectsCount > 0 ? `${projectsCount}+` : "40+");
+
+  const ratings = displayTestimonials.map((t) => Number(t.rating) || 5);
+  const computedAverage = ratings.length > 0
+    ? (ratings.reduce((sum, r) => sum + r, 0) / ratings.length).toFixed(1)
+    : "5.0";
+  const averageRatingValue = stats?.averageRating || computedAverage;
+
+  const positiveReviews = ratings.filter((r) => r >= 4).length;
+  const computedSatisfaction = ratings.length > 0
+    ? `${Math.round((positiveReviews / ratings.length) * 100)}%`
+    : "100%";
+  const satisfactionValue = stats?.clientSatisfaction || computedSatisfaction;
 
   const scrollLeft = () => {
     if (containerRef.current) {
@@ -126,22 +154,22 @@ export function TestimonialsSection({ testimonials = [] }: TestimonialsSectionPr
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-green-500/20">
               <div className="flex flex-col items-center justify-center text-center">
                 <Users className="w-8 h-8 text-green-400 mb-3" />
-                <h3 className="text-3xl font-black text-white mb-1">25+</h3>
+                <h3 className="text-3xl font-black text-white mb-1">{happyClientsValue}</h3>
                 <p className="text-green-100/70 text-sm">Happy Clients</p>
               </div>
               <div className="flex flex-col items-center justify-center text-center">
                 <CheckCircle className="w-8 h-8 text-green-400 mb-3" />
-                <h3 className="text-3xl font-black text-white mb-1">40+</h3>
+                <h3 className="text-3xl font-black text-white mb-1">{projectsCompletedValue}</h3>
                 <p className="text-green-100/70 text-sm">Projects Completed</p>
               </div>
               <div className="flex flex-col items-center justify-center text-center">
                 <Star className="w-8 h-8 text-green-400 mb-3" />
-                <h3 className="text-3xl font-black text-white mb-1">5.0</h3>
+                <h3 className="text-3xl font-black text-white mb-1">{averageRatingValue}</h3>
                 <p className="text-green-100/70 text-sm">Average Rating</p>
               </div>
               <div className="flex flex-col items-center justify-center text-center">
                 <Heart className="w-8 h-8 text-green-400 mb-3" />
-                <h3 className="text-3xl font-black text-white mb-1">100%</h3>
+                <h3 className="text-3xl font-black text-white mb-1">{satisfactionValue}</h3>
                 <p className="text-green-100/70 text-sm">Client Satisfaction</p>
               </div>
             </div>

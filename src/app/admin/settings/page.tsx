@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Save, Plus, Trash2, Sparkles } from "lucide-react";
+import { Save, Plus, Trash2, Sparkles, Award, Star } from "lucide-react";
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -101,6 +101,35 @@ export default function SettingsPage() {
           buttonText: "Request a Website",
           budgetOptions: ["$200 - $500", "$500 - $1,000", "$1,000 - $2,500", "$2,500+"],
           timelineOptions: ["Urgent (1-3 Days)", "1-2 Weeks", "3-4 Weeks", "Flexible"]
+        }),
+        [field]: value
+      }
+    }));
+  };
+
+  const handleCertificatesChange = (field: string, value: any) => {
+    setSettings((prev: any) => ({
+      ...prev,
+      certificates: {
+        ...(prev?.certificates || {
+          enabled: true,
+          title: "Certifications",
+          description: "Continuous learning and professional accreditations."
+        }),
+        [field]: value
+      }
+    }));
+  };
+
+  const handleTestimonialStatsChange = (field: string, value: string) => {
+    setSettings((prev: any) => ({
+      ...prev,
+      testimonialStats: {
+        ...(prev?.testimonialStats || {
+          happyClients: "",
+          projectsCompleted: "",
+          averageRating: "",
+          clientSatisfaction: "",
         }),
         [field]: value
       }
@@ -429,6 +458,110 @@ export default function SettingsPage() {
                 />
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Certificates Page & Section Visibility Control */}
+        <Card className="border-emerald-500/20 shadow-md">
+          <CardHeader>
+            <CardTitle className="text-emerald-400 flex items-center gap-2">
+              <Award className="w-5 h-5 text-emerald-400" />
+              Certifications Section & Page Visibility
+            </CardTitle>
+            <CardDescription>
+              Control whether the Certifications section appears on the homepage, in the navigation menu, and as a public route.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between rounded-lg border p-4 bg-muted/20">
+              <div className="space-y-0.5">
+                <Label className="text-base font-semibold">Enable Certifications Section</Label>
+                <p className="text-sm text-muted-foreground">
+                  When enabled, visitors can see your certifications on the portfolio and access the certifications link.
+                </p>
+              </div>
+              <Switch 
+                checked={settings.certificates?.enabled !== false} 
+                onCheckedChange={(checked) => handleCertificatesChange("enabled", checked)} 
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="cert-title">Section Heading</Label>
+                <Input 
+                  id="cert-title" 
+                  value={settings.certificates?.title || ""} 
+                  onChange={(e) => handleCertificatesChange("title", e.target.value)} 
+                  placeholder="Certifications" 
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="cert-desc">Section Subtitle / Description</Label>
+                <Input 
+                  id="cert-desc" 
+                  value={settings.certificates?.description || ""} 
+                  onChange={(e) => handleCertificatesChange("description", e.target.value)} 
+                  placeholder="Continuous learning and professional accreditations." 
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Testimonials Statistics Configuration */}
+        <Card className="border-emerald-500/20 shadow-md">
+          <CardHeader>
+            <CardTitle className="text-emerald-400 flex items-center gap-2">
+              <Star className="w-5 h-5 text-emerald-400" />
+              Testimonial Highlights & Counter Statistics
+            </CardTitle>
+            <CardDescription>
+              By default, these stats calculate automatically from live testimonials and completed projects. You can enter custom values below or leave blank for automatic calculation.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="stat-clients">Happy Clients</Label>
+                <Input 
+                  id="stat-clients" 
+                  value={settings.testimonialStats?.happyClients || ""} 
+                  onChange={(e) => handleTestimonialStatsChange("happyClients", e.target.value)} 
+                  placeholder="Auto (e.g. 2+)" 
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="stat-projects">Projects Completed</Label>
+                <Input 
+                  id="stat-projects" 
+                  value={settings.testimonialStats?.projectsCompleted || ""} 
+                  onChange={(e) => handleTestimonialStatsChange("projectsCompleted", e.target.value)} 
+                  placeholder="Auto (e.g. 6+)" 
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="stat-rating">Average Rating</Label>
+                <Input 
+                  id="stat-rating" 
+                  value={settings.testimonialStats?.averageRating || ""} 
+                  onChange={(e) => handleTestimonialStatsChange("averageRating", e.target.value)} 
+                  placeholder="Auto (e.g. 4.5)" 
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="stat-satisfaction">Client Satisfaction</Label>
+                <Input 
+                  id="stat-satisfaction" 
+                  value={settings.testimonialStats?.clientSatisfaction || ""} 
+                  onChange={(e) => handleTestimonialStatsChange("clientSatisfaction", e.target.value)} 
+                  placeholder="Auto (e.g. 100%)" 
+                />
+              </div>
+            </div>
+            <p className="text-xs text-muted-foreground italic">
+              Tip: Leave any field blank to dynamically compute values from your active testimonials and projects.
+            </p>
           </CardContent>
         </Card>
 

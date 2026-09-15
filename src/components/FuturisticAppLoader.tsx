@@ -74,40 +74,47 @@ export function FuturisticAppLoader() {
         }
         .fl-glow {
           position: absolute;
-          width: 500px; height: 500px;
-          background: radial-gradient(circle, rgba(16,185,129,.18) 0%, rgba(6,182,212,.12) 50%, transparent 80%);
-          border-radius: 50%; pointer-events: none;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 250vmax;
+          height: 250vmax;
+          background: radial-gradient(circle at center, rgba(16,185,129,.24) 0%, rgba(6,182,212,.15) 25%, rgba(15,23,42,.6) 55%, #020617 80%);
+          pointer-events: none;
+          z-index: 0;
         }
-        .fl-rings { position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 40px; }
+        .fl-rings { position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: clamp(18px, 3.5vh, 36px); flex-shrink: 0; }
         .fl-ring-outer {
-          position: absolute; width: 256px; height: 256px; border-radius: 50%;
+          position: absolute; inset: 0; margin: auto; width: 256px; height: 256px; border-radius: 50%;
           border: 2px dashed rgba(16,185,129,.5);
           box-shadow: 0 0 40px rgba(16,185,129,.3);
           animation: _spin_cw 12s linear infinite;
         }
         .fl-ring-inner {
-          position: absolute; width: 208px; height: 208px; border-radius: 50%;
+          position: absolute; inset: 0; margin: auto; width: 208px; height: 208px; border-radius: 50%;
           border: 2px dashed rgba(6,182,212,.6);
           box-shadow: 0 0 30px rgba(6,182,212,.3);
           animation: _spin_ccw 8s linear infinite;
         }
         .fl-ring-pulse {
-          position: absolute; width: 160px; height: 160px; border-radius: 50%;
+          position: absolute; inset: 0; margin: auto; width: 160px; height: 160px; border-radius: 50%;
           border: 1px solid rgba(52,211,153,.8);
           box-shadow: 0 0 50px #10b981;
           animation: _pulse_ring 2.5s ease-in-out infinite;
         }
         .fl-logo-card {
           position: relative; z-index: 10;
-          padding: 16px; border-radius: 24px;
-          background: rgba(15,23,42,.9);
-          border: 1px solid rgba(16,185,129,.5);
-          box-shadow: 0 0 45px rgba(16,185,129,.4);
+          width: 112px; height: 112px; border-radius: 50%;
+          display: flex; align-items: center; justify-content: center;
+          padding: 12px; background: rgba(15,23,42,.9);
+          border: 1.5px solid rgba(16,185,129,.6);
+          box-shadow: 0 0 45px rgba(16,185,129,.45);
           animation: _logo_in .6s ease forwards;
+          overflow: hidden;
         }
-        .fl-logo-card img { border-radius: 16px; display: block; }
+        .fl-logo-card img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; display: block; }
 
-        .fl-hud { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        .fl-hud { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 12px; flex-shrink: 0; }
         .fl-percent { display: flex; align-items: baseline; gap: 4px; font-family: monospace; }
         .fl-num {
           font-size: 3rem; font-weight: 900; letter-spacing: -.05em;
@@ -132,9 +139,9 @@ export function FuturisticAppLoader() {
 
       <div className={`fl-wrap${exiting ? " fl-exit" : ""}`} onClick={() => { setExiting(true); setTimeout(() => setIsLoading(false), 600); }}>
         <div className="fl-grid" />
-        <div className="fl-glow" />
 
         <div className="fl-rings">
+          <div className="fl-glow" />
           <div className="fl-ring-outer" />
           <div className="fl-ring-inner" />
           <div className="fl-ring-pulse" />

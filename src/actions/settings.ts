@@ -71,6 +71,14 @@ export async function getSettings() {
       };
     }
 
+    if (settings && !settings.certificates) {
+      settings.certificates = {
+        enabled: true,
+        title: "Certifications",
+        description: "Continuous learning and professional accreditations."
+      };
+    }
+
     return { success: true, data: JSON.parse(JSON.stringify(settings)) };
   } catch (error) {
     console.error("Failed to fetch settings:", error);
@@ -91,10 +99,45 @@ export async function updateSettings(data: Partial<ISettings>) {
     
     revalidatePath("/", "layout");
     revalidatePath("/admin/settings");
+    revalidatePath("/admin/certificates");
     
     return { success: true, data: JSON.parse(JSON.stringify(updated)) };
   } catch (error) {
     console.error("Failed to update settings:", error);
     return { success: false, error: "Failed to update settings" };
+  }
+}
+
+export async function toggleCertificatesVisibility(enabled?: boolean) {
+  try {
+    await dbConnect();
+    let settings = await Settings.findOne({});
+    if (!settings) {
+      const initRes = await getSettings();
+      if (!initRes.success) return { success: false, error: "Failed to find settings" };
+      settings = await Settings.findOne({});
+    }
+
+    const currentStatus = settings?.certificates?.enabled !== false;
+    const newStatus = typeof enabled === "boolean" ? enabled : !currentStatus;
+
+    if (settings) {
+      settings.certificates = {
+        ...(settings.certificates || {}),
+        enabled: newStatus,
+        title: settings.certificates?.title || "Certifications",
+        description: settings.certificates?.description || "Continuous learning and professional accreditations."
+      };
+      await settings.save();
+    }
+
+    revalidatePath("/", "layout");
+    revalidatePath("/admin/certificates");
+    revalidatePath("/admin/settings");
+
+    return { success: true, enabled: newStatus };
+  } catch (error) {
+    console.error("Failed to toggle certificates visibility:", error);
+    return { success: false, error: "Failed to toggle certificates visibility" };
   }
 }

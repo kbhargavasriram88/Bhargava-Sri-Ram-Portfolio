@@ -22,10 +22,25 @@ const NAV_LINKS = [
   { name: "Contact", href: "/#contact" },
 ];
 
-export function Navbar({ offer, requestForm }: { offer?: any; requestForm?: any }) {
+export function Navbar({ 
+  offer, 
+  requestForm, 
+  certificatesEnabled = true 
+}: { 
+  offer?: any; 
+  requestForm?: any; 
+  certificatesEnabled?: boolean; 
+}) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isScrolled, setIsScrolled] = React.useState(false);
   const pathname = usePathname();
+
+  const visibleLinks = React.useMemo(() => {
+    if (certificatesEnabled === false) {
+      return NAV_LINKS.filter((link) => link.href !== "/#certifications" && link.name !== "Certifications");
+    }
+    return NAV_LINKS;
+  }, [certificatesEnabled]);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -67,7 +82,7 @@ export function Navbar({ offer, requestForm }: { offer?: any; requestForm?: any 
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
-            {NAV_LINKS.map((link) => (
+            {visibleLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
@@ -130,7 +145,7 @@ export function Navbar({ offer, requestForm }: { offer?: any; requestForm?: any 
       {isOpen && (
         <div className="md:hidden bg-background border-b border-border absolute w-full">
           <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-            {NAV_LINKS.map((link) => (
+            {visibleLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}

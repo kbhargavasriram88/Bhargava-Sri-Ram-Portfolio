@@ -42,6 +42,17 @@ export interface ISettings extends Document {
     budgetOptions: string[];
     timelineOptions: string[];
   };
+  certificates?: {
+    enabled: boolean;
+    title?: string;
+    description?: string;
+  };
+  testimonialStats?: {
+    happyClients?: string;
+    projectsCompleted?: string;
+    averageRating?: string;
+    clientSatisfaction?: string;
+  };
   createdAt: Date;
   updatedAt: Date;
 }
@@ -96,6 +107,17 @@ const SettingsSchema: Schema = new Schema(
         type: [String],
         default: ["Urgent (1-3 Days)", "1-2 Weeks", "3-4 Weeks", "Flexible"]
       },
+    },
+    certificates: {
+      enabled: { type: Boolean, default: true },
+      title: { type: String, default: "Certifications" },
+      description: { type: String, default: "Continuous learning and professional accreditations." },
+    },
+    testimonialStats: {
+      happyClients: { type: String, default: "" },
+      projectsCompleted: { type: String, default: "" },
+      averageRating: { type: String, default: "" },
+      clientSatisfaction: { type: String, default: "" },
     },
   },
   { timestamps: true }

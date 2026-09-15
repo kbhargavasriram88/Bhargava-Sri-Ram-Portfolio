@@ -7,11 +7,17 @@ export function LoaderInit() {
   useEffect(() => {
     SplashScreen.hide().catch(() => {});
 
+    // Lock body scroll during splash loader
+    document.body.style.overflow = "hidden";
+
     const el = document.getElementById("fl-root") as HTMLElement | null;
     const num = document.getElementById("fl-num") as HTMLElement | null;
     const bar = document.getElementById("fl-bar") as HTMLElement | null;
     const txt = document.getElementById("fl-txt") as HTMLElement | null;
-    if (!el) return;
+    if (!el) {
+      document.body.style.overflow = "";
+      return;
+    }
 
     let prog = 0;
     let dismissed = false;
@@ -22,10 +28,18 @@ export function LoaderInit() {
       clearInterval(iv);
       clearTimeout(maxTimer);
       if (!el) return;
+
+      // Dispatch event to activate Screen 2 (Quantum Core Intro)
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("trigger-quantum-intro"));
+      }
+
       el.style.opacity = "0";
-      el.style.transform = "scale(1.06)";
-      el.style.filter = "blur(10px)";
-      setTimeout(() => { if (el) el.style.display = "none"; }, 650);
+      el.style.transform = "scale(1.04)";
+      el.style.filter = "blur(8px)";
+      setTimeout(() => {
+        if (el) el.style.display = "none";
+      }, 500);
     }
 
     el.addEventListener("click", dismiss);
@@ -40,12 +54,18 @@ export function LoaderInit() {
         else if (prog < 99) txt.textContent = "ESTABLISHING NEURAL LINK...";
         else txt.textContent = "SYSTEM 100% READY";
       }
-      if (prog >= 100) { clearInterval(iv); setTimeout(dismiss, 700); }
-    }, 100);
+      if (prog >= 100) {
+        clearInterval(iv);
+        setTimeout(dismiss, 250);
+      }
+    }, 80);
 
-    const maxTimer = setTimeout(dismiss, 5000);
+    const maxTimer = setTimeout(dismiss, 4500);
 
-    return () => { clearInterval(iv); clearTimeout(maxTimer); };
+    return () => {
+      clearInterval(iv);
+      clearTimeout(maxTimer);
+    };
   }, []);
 
   return null;
