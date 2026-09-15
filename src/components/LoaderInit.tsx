@@ -28,9 +28,6 @@ export function LoaderInit() {
       const el = document.getElementById("fl-root");
       if (el) {
         el.style.display = "none";
-        try {
-          el.remove();
-        } catch {}
       }
     }
   }, [pathname]);
@@ -47,9 +44,6 @@ export function LoaderInit() {
       const el = document.getElementById("fl-root");
       if (el) {
         el.style.display = "none";
-        try {
-          el.remove();
-        } catch {}
       }
       return;
     }
